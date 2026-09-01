@@ -637,13 +637,13 @@ h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance}
   <aside class="chat">
     <div class="chat-hd">
       <span class="glyph"><img alt="LinkedIn" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='7' fill='%230A66C2'/%3E%3Ctext x='24' y='34' text-anchor='middle' font-family='Arial,sans-serif' font-size='27' font-weight='700' fill='white'%3Ein%3C/text%3E%3C/svg%3E"></span>
-      <div><div class="t">Asistente LinkedIn epm</div><div class="s">lee el panel en tiempo real</div></div>
+      <div><div class="t">Asistente LinkedIn epm · Capacitación</div><div class="s">Guía para líderes de equipo</div></div>
       <span class="demo-chip">demo · guionado</span>
     </div>
     <div class="log" id="log" aria-live="polite"></div>
     <div class="chips" id="chips"></div>
     <form class="composer" id="composer">
-      <input id="input" autocomplete="off" placeholder="Pregunta sobre el equipo…" aria-label="Escribe tu pregunta">
+      <input id="input" autocomplete="off" placeholder="Escribe tu pregunta…" aria-label="Escribe tu pregunta">
       <button type="submit" class="btn-coral" aria-label="Enviar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 6l6 6-6 6"/></svg>
       </button>
@@ -685,7 +685,6 @@ const TEAM = [
   {k:'fernanda', n:'Fernanda A',      r:'Soporte a clientes',  clics: 738, links:22, st:'nula',  last:'hace 23 min', seed:71},
   {k:'ana',      n:'Ana Sol Mtz',     r:'Datos',               clics:1260, links:41, st:'foco',  last:'ahora',       seed:96}
 ];
-/* ← esta línea faltaba: sin ella el índice de cada persona sale undefined */
 TEAM.forEach(p => p.s = indice(p));
 
 const HOURS = ['09','10','11','12','13','14','15','16','17','18'];
@@ -1082,7 +1081,7 @@ svgSpark.addEventListener('mousemove', e => {
 svgSpark.addEventListener('mouseleave', () => { sCross.style.opacity = '0'; });
 drawSpark();
 
-/* ═══ ASISTENTE — respuestas guionadas ═════════════════════════════ */
+/* ═══ ASISTENTE — CAPACITACIÓN PARA LÍDERES ════════════════════════ */
 const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 const P = k => TEAM.find(x => x.k === k);
 const ficha = k => { const p = P(k);
@@ -1097,50 +1096,207 @@ const MEZCLA = (() => {
   return {min:t, pct};
 })();
 
-/* RESPUESTAS ADICIONALES DE CAPACITACIÓN (CUMPLIMIENTO DE RÚBRICA) */
+/* ════════════════════════════════════════════════════════════════════════
+   CAPACITACIÓN: 5 PUNTOS CLAVE PARA MANDOS MEDIOS
+   ════════════════════════════════════════════════════════════════════════ */
+
 const CAPACITACION = {
+  
+  // 1. BIENVENIDA — Dirigido a mando medio / líder
   bienvenida: () => 
-    '¡Bienvenido/a al módulo de Capacitación en Evaluación del Desempeño y Retroalimentación Constructiva!\n'+
-    'Como mando medio / líder gerencial, mi propósito es acompañarte para que transformes los datos de telemetría de LinkedIn epm (epmsol.vercel.app) en conversaciones de alto impacto, manejando cualquier conflicto de manera positiva.\n'+
-    'Actualmente la Célula Norte registra un índice global de **'+teamIdx+'/100** con **'+miles(totClics)+' clics** recopilados.',
+    '¡Bienvenido al Centro de Capacitación para Líderes: Evaluación de Desempeño y Retroalimentación Constructiva!\n\n'+
+    '**Tu rol:** Transformar datos EPM en conversaciones de alto impacto sin confundir métrica con valor personal.\n\n'+
+    '**Estado actual · Célula Norte**\n'+
+    '— Índice global **'+teamIdx+'/100** (▲5 pts vs. ayer)\n'+
+    '— **'+miles(totClics)+' clics** y **'+totLinks+' enlaces** en la jornada\n'+
+    '— **'+intentosVivos().length+' intentos** de acceso a sitios bloqueados\n\n'+
+    '**¿Qué aprenderás aquí?**\n'+
+    'Explora estos 5 temas escribiendo sus nombres o preguntas:\n'+
+    '— *Definición del puesto* — Perfil y responsabilidades de quién evaluarás\n'+
+    '— *KPIs y técnica EPM* — Cómo se miden y qué significa cada métrica\n'+
+    '— *Cómo planear la entrevista* — Estructura, preparación y documentación\n'+
+    '— *Tips de retroalimentación* — Modelo SBI, manejo de conflictos, acuerdos\n'+
+    '— *Datos del equipo* — Analiza el panel en tiempo real y aprende a interpretar\n\n'+
+    'Cada respuesta es interactiva: prueba hacer clic en el equipo, explorar los bloques de sitios '+
+    'o cambiar entre el modo capacitación y el modo operativo.',
 
+  // 2. DEFINICIÓN DEL PUESTO A EVALUAR
   puesto: () => 
-    '**Definición del Puesto a Evaluar:**\n'+
-    '— **Puesto:** Senior Software Engineer / Desarrollador Senior (Célula Norte).\n'+
-    '— **Nivel:** Contribuidor Individual de Alto Impacto.\n'+
-    '— **Propósito del Rol:** Diseñar, implementar y desplegar arquitectura de software escalable, asegurando entregas a tiempo en el sprint y colaborando con la célula.',
+    '**Definición del Puesto Modelo: Senior Software Engineer / Desarrollador Senior**\n\n'+
+    '**Propósito del rol**\n'+
+    'Diseñar, implementar y desplegar arquitectura de software escalable, asegurar calidad de código, '+
+    'guiar a contribuidores junior, y entregar features a tiempo en los sprints de la Célula Norte.\n\n'+
+    '**Responsabilidades clave**\n'+
+    '— *Técnicas:* Code reviews, arquitectura, debugging, optimización de performance\n'+
+    '— *Colaborativas:* Mentoría, pair programming, sincronización con QA y Producto\n'+
+    '— *De comunicación:* Reportes técnicos, retros, documentación arquitectónica\n'+
+    '— *De continuidad:* Resolución de incidentes, deuda técnica, planes de migración\n\n'+
+    '**Expectativa de dedicación**\n'+
+    '— **65%** del tiempo en código/herramientas (VS Code, GitHub, Jira, Stack Overflow)\n'+
+    '— **20%** en comunicación sincrónica (Slack, Google Meet, reuniones de alineación)\n'+
+    '— **15%** en cambios de contexto y tareas administrativas\n\n'+
+    '**Indicadores de desempeño esperados**\n'+
+    '— Índice EPM **≥75/100** (con variación de ±10 por picos de trabajo intenso)\n'+
+    '— Tiempo en herramientas core **≥6 horas por día laboral**\n'+
+    '— Cambios de contexto **<12 por jornada** (salvo excepciones de incidentes)\n'+
+    '— Cero accesos a sitios bloqueados, o justificación documental en caso contrario',
 
+  // 3. KPIs Y TÉCNICA EPM
   kpis: () => 
-    '**KPIs y Método de Obtención con Técnica EPM (epmsol.vercel.app):**\n'+
-    '1. **Tiempo con Señal / En Foco:** Mide los segundos activos en aplicaciones core (VS Code, Jira, GitHub) versus tiempo en reposo.\n'+
-    '2. **Tasa de Clics y Navegación:** Mide la continuidad del trabajo iterativo mediante clics/minuto ('+miles(totClics)+' hoy) y enlaces abiertos ('+totLinks+' hoy).\n'+
-    '3. **Alternancia de Ventanas:** Detecta cambios de entorno para identificar cuellos de botella o multitarea excesiva.\n'+
-    '— *Técnica EPM:* Capturado automáticamente mediante eventos del navegador/agente local y normalizado en el índice 0–100 sin alterar la privacidad.',
+    '**KPIs Evaluados con Técnica EPM y Cómo Interpretarlos**\n\n'+
+    '**¿Qué es EPM?**\n'+
+    'Employee Performance Monitoring. Captura eventos del navegador/sistema (clics, enlaces abiertos, cambios de ventana) '+
+    'en tiempo real, sin grabar pantalla ni texto. **Nunca accede a contenido**; sólo a metadatos.\n\n'+
+    '**1. Índice de Productividad (0–100)**\n'+
+    '— Fórmula: `0.65 × (clics / tope) + 0.35 × (enlaces / tope)`, normalizado a escala 100\n'+
+    '— *Qué mide:* Actividad iterativa en herramientas core (desarrollo, diseño, análisis)\n'+
+    '— *Cómo se obtiene:* Automáticamente cada segundo, suavizado para evitar picos falsos\n'+
+    '— *Rango esperado:* 65–85/100 en jornadas normales. >90 indica burnout; <50 indica bloqueo o desenganche\n'+
+    '— Hoy: **'+teamIdx+'/100** (equipo completo)\n\n'+
+    '**2. Tiempo en Señal vs. Ausencia**\n'+
+    '— *Señal:* Clics o movimiento en últimos 6 segundos → **Estado: En Foco**\n'+
+    '— *Baja actividad:* Inactividad 6–20 segundos → **Estado: Actividad Baja**\n'+
+    '— *Sin señal:* Inactividad >20 segundos → **Estado: Sin Señal**\n'+
+    '— *Cambio de pestaña/app:* Se registra incremento de contador, no como desconexión\n'+
+    '— *Uso de excepciones:* Si hay reunión en calendario, la ausencia de clics NO dispara alerta\n\n'+
+    '**3. Distribución de Destinos (Trabajo / Comunicación / Personal)**\n'+
+    '— *Trabajo:* VS Code, Jira, GitHub, Figma, Stack Overflow — herramientas críticas del rol\n'+
+    '— *Comunicación:* Slack, Google Meet, Gmail, Zendesk — sincronización con el equipo\n'+
+    '— *Personal:* YouTube, redes sociales, e-commerce — uso no laboral\n'+
+    '— *Bloqueados:* Instagram, TikTok, Roblox — visible en rojo en la línea de tiempo\n'+
+    '— Hoy: Trabajo **'+MEZCLA.pct.trabajo+'%** | Comunicación **'+MEZCLA.pct.comunicacion+'%** | Personal **'+MEZCLA.pct.personal+'%**\n\n'+
+    '**4. Intentos de Acceso Bloqueado**\n'+
+    '— Número total: **'+intentosVivos().length+' hoy**\n'+
+    '— Tendencia: Si se repiten en la misma franja horaria, indica desenganche o necesidad de pausa\n'+
+    '— Acción: No es para castigo; es para **entender patrones** e identificar cargas de trabajo no sostenibles\n\n'+
+    '**5. Cambios de Ventana / Multitarea**\n'+
+    '— Métrica secundaria: Contador de cambios de contexto por jornada\n'+
+    '— Umbral saludable: 8–14 cambios. >20 indica alta interrupción o multitarea excesiva\n\n'+
+    '**Cómo leer el tablero**\n'+
+    '— Mira el **gráfico de 60 segundos** arriba (sensor) para ver volatilidad en vivo\n'+
+    '— Revisa la **matriz de jornada** para patrones por franja horaria\n'+
+    '— Explora **destinos** de cada persona para entender su carga de trabajo real\n'+
+    '— Usa los **bloques de sitios** para ver cuándo se concentran intentos de distracción',
 
+  // 4. CÓMO PLANEAR LA ENTREVISTA DE RETROALIMENTACIÓN
   planeacion: () => 
-    '**Cómo Planear la Entrevista de Retroalimentación:**\n'+
-    '1. **Análisis de Tendencias (15 min):** Revisa el historial acumulado en la consola EPM (ej. los últimos 14 días), evitando juzgar días u horas aisladas.\n'+
-    '2. **Puntos Clave:** Define máximo 2 fortalezas a reconocer y 2 áreas puntuales de mejora.\n'+
-    '3. **Convocatoria Formal:** Envía la invitación con 48h de anticipación indicando: "Sesión de Desarrollo y Desempeño".\n'+
-    '4. **Entorno Controlado:** Garantiza una reunión privada y libre de interrupciones.',
+    '**Plan de Acción: Cómo Estructurar una Entrevista de Retroalimentación**\n\n'+
+    '**Fase 1: Análisis Previo (3–5 días antes)**\n'+
+    '1. Descarga datos EPM de los últimos 7–14 días (no uses días aislados; busca patrones)\n'+
+    '2. Identifica máximo 2 fortalezas y 2 áreas de mejora — no más de 4 temas\n'+
+    '3. Busca anomalías:\n'+
+    '   — Caída sostenida en índice después de cierta hora\n'+
+    '   — Picos de intentos bloqueados (¿frustración? ¿sobrecarga?)\n'+
+    '   — Cambios de contexto excesivos (multitarea no planificada)\n'+
+    '4. Prepara ejemplos concretos usando el tablero (fechas, horas, métricas)\n\n'+
+    '**Fase 2: Convocatoria Formal (48 horas antes)**\n'+
+    'Envía un correo profesional:\n'+
+    '— Asunto: "Sesión de Desarrollo y Desempeño — [Nombre]"\n'+
+    '— Contenido:\n'+
+    '  "Te convoco a una sesión de 30 minutos para revisar tu desempeño y acordar '+
+    'oportunidades de desarrollo. Será una conversación bidireccional; traes tus perspectivas, yo traigo datos."\n'+
+    '— NO menciones datos EPM en la convocatoria (evita ansiedad previa)\n'+
+    '— Elige espacio privado, sin interrupciones\n\n'+
+    '**Fase 3: Estructura de la Entrevista (30 min)**\n'+
+    '0–3 min: **Apertura**\n'+
+    '   "Gracias por venir. Hoy quiero revisar cómo ha ido tu desempeño y cómo puedo apoyarte."\n\n'+
+    '3–8 min: **Su perspectiva primero**\n'+
+    '   "¿Cómo sientes que ha ido tu trabajo en los últimos 14 días? ¿Qué te ha fluido y qué te ha costado?"\n'+
+    '   — Escucha sin interrumpir\n'+
+    '   — Toma notas\n\n'+
+    '8–20 min: **Introduce datos EPM**\n'+
+    '   Comparte el tablero EN PANTALLA (no como reporte cerrado)\n'+
+    '   — "Miremos juntos qué dice el sensor..."\n'+
+    '   — Señala patrones, no juicios: "Observo que tu índice bajó después de las 15:00, ¿qué paso?"\n'+
+    '   — Conecta métricas con resultados: "Esta caída coincide con el delay en [feature]. ¿Qué bloqueos enfrentaste?"\n\n'+
+    '20–27 min: **Acuerdos co-creados**\n'+
+    '   "¿Qué apoyo necesitas para sostener un índice >75 la próxima semana?"\n'+
+    '   — Que la persona PROPONGA las soluciones (autonomía)\n'+
+    '   — Tú aportas recursos: mentoría, bloqueo de reuniones, ajuste de sprints\n\n'+
+    '27–30 min: **Cierre y seguimiento**\n'+
+    '   "Haremos seguimiento el [fecha]. ¿Preguntas?"\n'+
+    '   — Fija 1 check-in en 7 días (no 30)\n'+
+    '   — Documenta lo hablado (correo de confirmación)\n\n'+
+    '**Fase 4: Después de la Reunión**\n'+
+    '— Envía resumen por correo dentro de 24h\n'+
+    '— Monitorea avance sin obsesionarte\n'+
+    '— Si hay recaída a los 7 días, vuelve a conversar (no sanciones de entrada)\n'+
+    '— Celebra mejoras públicamente (refuerzo positivo)\n\n'+
+    '**Errores comunes a evitar**\n'+
+    '❌ Sorprender en la reunión con datos que no mencionaste antes\n'+
+    '❌ Comparar personas ("Tu compañero tiene 85/100")\n'+
+    '❌ Confundir métrica con valor ("Tu índice bajó, eres menos productivo")\n'+
+    '❌ Usar el tablero como amenaza ("Veo que fuiste a Instagram")\n'+
+    '✓ Siempre: contexto + empatía + solución conjunta',
 
+  // 5. TIPS DE RETROALIMENTACIÓN EXITOSA
   tips: () => 
-    '**Tips para Retroalimentación Exitosa y Manejo de Conflictos:**\n'+
-    '— **Aplica el Modelo SBI (Situación - Comportamiento - Impacto):** En vez de decir "Te ves distraído", di: "En las últimas dos semanas (S), el sensor EPM registró una baja sostenida en el tiempo activo después de las 15:00 (C), lo que retrasó las revisiones del código (I)".\n'+
-    '— **Separa la métrica de la persona:** Enfócate en las lecturas del tablero, no en el valor personal del colaborador.\n'+
-    '— **Preguntas abiertas:** Indaga con empatía: "Veo este cambio en la métrica, ¿qué bloqueos técnicos o de proceso has enfrentado?"\n'+
-    '— **Acuerdos co-creados:** Permite que el colaborador proponga las soluciones y fija una sesión de seguimiento en 15 días.'
+    '**Tips Prácticos: Retroalimentación Exitosa y Manejo de Conflictos**\n\n'+
+    '**Técnica SBI (Situación - Comportamiento - Impacto)**\n'+
+    'En lugar de: "Veo que andas distraído"\n'+
+    'Di: "En los últimos 5 días (S), el sensor registra una caída sostenida en tu índice después de las '+
+    '15:00 (C). Eso ha retrasado la revisión del código que esperábamos el jueves (I). ¿Qué está pasando?"\n\n'+
+    '**Principios de Comunicación**\n'+
+    '1. **Separa métrica de persona**\n'+
+    '   — La métrica es un instrumento, no un juicio moral\n'+
+    '   — "El sensor dice X" es más neutral que "Tú eres X"\n\n'+
+    '2. **Preguntas abiertas (no cierre)**\n'+
+    '   ✓ "¿Qué cambió en tu rutina después de las 15:00?"\n'+
+    '   ❌ "¿No estarás yendo a redes sociales?"\n\n'+
+    '3. **Valida emociones, no excusas**\n'+
+    '   ✓ "Entiendo que eso es frustrante. Hagamos un plan."\n'+
+    '   ❌ "Sé que es difícil, pero hay que esforzarse más."\n\n'+
+    '4. **Proporcionalidad**\n'+
+    '   — Caída de 5 puntos en índice = mención informal\n'+
+    '   — Caída de 20+ puntos sostenida = entrevista formal\n'+
+    '   — Intento bloqueado aislado = ignorar\n'+
+    '   — 8+ intentos en franja de 2 horas = investigar bienestar\n\n'+
+    '**Gestión de Conflictos**\n'+
+    'Si la persona se molesta: "Sé que esto se siente invasivo. La intención es entender dónde '+
+    'puedo apoyarte, no supervisar. ¿Cómo vemos esto juntos?"\n\n'+
+    'Si cuestiona la privacidad: "Correctamente cuestionas eso. No capturamos URL completas, contenido '+
+    'de emails, ni screenshot. Sólo dominios. Y el tablero es compartido: tú ves lo que yo veo."\n\n'+
+    'Si niega los datos: "Revisemos juntos el tablero. El sensor captura clics en tiempo real. '+
+    'Si hay un error, lo vemos aquí."\n\n'+
+    '**Acuerdos Co-creados (clave para sostenibilidad)**\n'+
+    'Después de diagnosticar, NO impones. Preguntas:\n'+
+    '— "¿Qué necesitarías para llegar a 80/100 próxima semana?"\n'+
+    '— "¿Bloqueamos focus time? ¿Menos reuniones?"\n'+
+    '— "¿Hay una carga de trabajo no visible en el sprint?"\n'+
+    'La persona que participa en la solución la adopta. La que la recibe la resiste.\n\n'+
+    '**Seguimiento en 7 días**\n'+
+    'NO esperes 30 días. Haz check-in en 1 semana:\n'+
+    '— "¿Funcionó lo que acordamos?"\n'+
+    '— "¿Necesitamos ajustar?"\n'+
+    '— Celebra si mejoró ("Veo que la táctica de focus blocks funcionó")\n'+
+    '— Si no mejoró, vuelve a diagnosticar (no castigues)\n\n'+
+    '**Casos especiales**\n'+
+    '**Muy alto (>90/100):** Riesgo de burnout. "Veo que sostuviste un índice muy alto. ¿Cómo estás? '+
+    '¿Necesitamos reducir carga?"  \n'+
+    '**Muy bajo (<50/100):** Síntoma de bloqueo. Pregunta sin acusar: "¿Hay algo que no fluye? '+
+    'Técnicamente, interpersonalmente, en el proyecto?"\n'+
+    '**Muchos intentos bloqueados:** No es moralina. Es "observo estrés. ¿Qué necesitas?"  \n'+
+    '**Inactividad durante jornada:** Antes de preguntar, revisa calendario. Si tiene reunión, '+
+    'no es anomalía. Si no, pregunta con empatía.\n\n'+
+    '**Recuerda:**\n'+
+    '— La métrica es una **puerta de entrada a la conversación**, no la conversación misma\n'+
+    '— El mejor líder es quien ve datos y pregunta "¿cómo te puedo ayudar?"\n'+
+    '— La retroalimentación que funciona es la que **la persona misma ayudó a crear**'
 };
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GUION MEJORADO: Sugerencias y Respuestas
+   ═══════════════════════════════════════════════════════════════════════════ */
 
 const GUION = [
   // ── INYECCIÓN DE LOS 5 PUNTOS DE CAPACITACIÓN ──────────────────────────
-  [/(bienvenid|mando medio|capacita|capacitacion|intro|lider|gerente)/, CAPACITACION.bienvenida],
-  [/(puesto|rol|desarrollador|senior software engineer|evaluar puesto|perfil)/, CAPACITACION.puesto],
-  [/(kpi|kpis|tecnica epm|obten|metrica|tablero|medicion)/, CAPACITACION.kpis],
-  [/(planear|planeacion|preparar entrevista|reunion|preparacion)/, CAPACITACION.planeacion],
-  [/(tip|tips|feedback|retroalimentacion|conflicto|sbi|exito|exitosa)/, CAPACITACION.tips],
+  [/(bienvenida|mando medio|capacitacion|capacitador|lider|gerente|entrenamiento|training|inicio|intro|hola|buenas|saludos)/, CAPACITACION.bienvenida],
+  [/(puesto|rol|desarrollador|senior software engineer|evaluar puesto|perfil|responsabilidades|descripcion del rol|qué debe hacer)/, CAPACITACION.puesto],
+  [/(kpi|kpis|tecnica epm|epm|obten|metrica|tablero|medicion|cómo se mide|índice|sensor|qué se captura)/, CAPACITACION.kpis],
+  [/(planear|planeacion|preparar entrevista|reunion|preparacion|estructura|cómo hago|antes de la reunion|qué le digo)/, CAPACITACION.planeacion],
+  [/(tip|tips|feedback|retroalimentacion|conflicto|sbi|exito|exitosa|cómo digo|manejo|comunicacion|respuesta|reaccion)/, CAPACITACION.tips],
 
-  // ── GUION ORIGINAL INTACTO ─────────────────────────────────────────────
+  // ── GUION ORIGINAL (ANÁLISIS DE DATOS DEL EQUIPO) ─────────────────────
   [/\bmariana\b|\bcordova\b/, () => ficha('mariana')+
     'Patrón estable: arranca fuerte de 09:00 a 12:00 y sostiene la tarde. Sin alertas en 14 días.\n'+
     'Ventanas: Figma 7 h 45 m, Notion 28 min, 47 min entre Slack y Meet. Cero sitios personales.'],
@@ -1170,10 +1326,6 @@ const GUION = [
     'Mucho teclado y pocos clics de navegación, típico de su rol: si midieras sólo recorrido de mouse, '+
     'saldría en rojo sin razón.\n'+
     'Ventanas: Metabase 6 h 40 m y VS Code 1 h 45 m. Nada personal en todo el día.'],
-
-  [/^\s*(hola|buenas|hey|que tal|saludos|buenos dias|buenas tardes)\b/, () =>
-    CAPACITACION.bienvenida() + '\n\n' +
-    '¿Quieres revisar la **definición del puesto**, la explicación de los **KPIs y técnica EPM**, cómo **planear la entrevista**, los **tips de feedback**, o explorar las métricas del equipo?'],
 
   [/(bloque|prohib|roblox|instagram|restring|veta|censur|lista negra|politica de sitio)/, () => {
     const porSitio = {};
@@ -1282,19 +1434,22 @@ const GUION = [
     'Si vas a mover las juntas recurrentes, el hueco más barato es de 15:00 a 16:00.'],
 
   [/\b(gracias|listo|perfecto|ok|vale|entendido)\b/, () =>
-    'Va. Dejo el sensor corriendo; si algo cruza el umbral o alguien toca un sitio bloqueado, aparece aquí solo.']
+    'Va. El tablero está corriendo en vivo. Cualquier alerta o cambio aparecerá aquí automáticamente.']
 ];
 
 const FALLBACK =
-  'Puedo responder sobre la **capacitación para líderes** o sobre la **telemetría del equipo**.\n'+
-  'Prueba preguntando por: *mando medio*, *definición del puesto*, *KPIs*, *cómo planear entrevista*, *tips de feedback*, *resumen del día* o *privacidad*.';
+  '**Tema no reconocido.** Prueba preguntar por:\n'+
+  '— **Capacitación:** Bienvenida, Puesto, KPIs, Planear Entrevista, Tips de Feedback\n'+
+  '— **Datos operativos:** Resumen del día, alguien del equipo, bloques de sitios, cómo funciona\n'+
+  '— Escribe "¿Qué puedes hacer?" para ver todas las opciones';
 
 function responder(q){
   const n = norm(q);
   for (const [re, fn] of GUION) if (re.test(n)) return fn();
   return FALLBACK;
 }
-/* ── render de mensajes ─────────────────────────────── */
+
+/* ── render de mensajes ─────────────────────────── */
 function fmt(t, caret){
   let s = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   if ((s.match(/\*\*/g)||[]).length % 2) s = s.replace(/\*\*(?![\s\S]*\*\*)/, '');
@@ -1318,7 +1473,7 @@ const toBottom = () => { log.scrollTop = log.scrollHeight; };
 function addMsg(who, html){
   const el = document.createElement('div');
   el.className = 'msg ' + who;
-  el.innerHTML = '<div class="ic">'+(who==='bot'?'in':'TÚ')+'</div><div class="bubble">'+html+'</div>';
+  el.innerHTML = '<div class="ic">'+(who==='bot'?'📚':'TÚ')+'</div><div class="bubble">'+html+'</div>';
   log.appendChild(el); toBottom();
   return el;
 }
@@ -1355,9 +1510,16 @@ function preguntar(q){
   botSay(responder(q));
 }
 
-/* ── sugerencias y composer ─────────────────────────── */
-const SUGS = ['Resumen del día', '¿Quién intentó entrar a Instagram?', '¿Qué sitios visitan?',
-              '¿Cómo se calcula el índice?', '¿Se puede leer la URL?', '¿Qué pasa con Fernanda A?', 'Privacidad'];
+/* ── sugerencias mejoradas ─────────────────────────── */
+const SUGS = [
+  '¿Qué es la capacitación?',
+  'Definición del puesto',
+  'KPIs y técnica EPM',
+  'Cómo planear la entrevista',
+  'Tips de retroalimentación',
+  'Resumen del equipo hoy'
+];
+
 const chips = $('#chips');
 SUGS.forEach(t => {
   const b = document.createElement('button');
@@ -1374,12 +1536,20 @@ $('#composer').addEventListener('submit', e => {
   preguntar(v);
 });
 
-/* ── saludo inicial ─────────────────────────────────── */
+/* ── saludo inicial mejorado ─────────────────────── */
 setTimeout(() => botSay(
-  'Panel conectado. El índice ahora lo mandan **los clics y los enlaces abiertos**.\n'+
-  'Equipo **'+teamIdx+'/100** · '+miles(totClics)+' clics · '+totLinks+' enlaces · **'+
-  intentosVivos().length+' intentos** de abrir sitios bloqueados.\n'+
-  'Pregúntame por alguien del equipo, por los bloqueos de hoy o por cómo se calcula el índice.'
+  '¡Bienvenido al **Centro de Capacitación para Líderes**!\n\n'+
+  'Soy tu asistente para transformar datos EPM en conversaciones constructivas con tu equipo.\n\n'+
+  '**Estado actual · Célula Norte**\n'+
+  '— Índice global **'+teamIdx+'/100** · '+miles(totClics)+' clics · '+totLinks+' enlaces\n'+
+  '— **'+intentosVivos().length+' intentos** de acceso a sitios bloqueados hoy\n\n'+
+  '**¿Por dónde empezamos?** Prueba preguntar:\n'+
+  '— *¿Qué es la capacitación?* (introducción)\n'+
+  '— *Definición del puesto* (perfil y responsabilidades)\n'+
+  '— *KPIs y técnica EPM* (cómo se miden las métricas)\n'+
+  '— *Cómo planear la entrevista* (paso a paso)\n'+
+  '— *Tips de retroalimentación* (comunicación y conflictos)\n'+
+  '— O pregunta por alguien del equipo: Mariana, Francisco, Fernanda...'
 ), 700);
 
 })();
