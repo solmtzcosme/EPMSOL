@@ -1097,7 +1097,50 @@ const MEZCLA = (() => {
   return {min:t, pct};
 })();
 
+/* RESPUESTAS ADICIONALES DE CAPACITACIÓN (CUMPLIMIENTO DE RÚBRICA) */
+const CAPACITACION = {
+  bienvenida: () => 
+    '¡Bienvenido/a al módulo de Capacitación en Evaluación del Desempeño y Retroalimentación Constructiva!\n'+
+    'Como mando medio / líder gerencial, mi propósito es acompañarte para que transformes los datos de telemetría de LinkedIn epm (epmsol.vercel.app) en conversaciones de alto impacto, manejando cualquier conflicto de manera positiva.\n'+
+    'Actualmente la Célula Norte registra un índice global de **'+teamIdx+'/100** con **'+miles(totClics)+' clics** recopilados.',
+
+  puesto: () => 
+    '**Definición del Puesto a Evaluar:**\n'+
+    '— **Puesto:** Senior Software Engineer / Desarrollador Senior (Célula Norte).\n'+
+    '— **Nivel:** Contribuidor Individual de Alto Impacto.\n'+
+    '— **Propósito del Rol:** Diseñar, implementar y desplegar arquitectura de software escalable, asegurando entregas a tiempo en el sprint y colaborando con la célula.',
+
+  kpis: () => 
+    '**KPIs y Método de Obtención con Técnica EPM (epmsol.vercel.app):**\n'+
+    '1. **Tiempo con Señal / En Foco:** Mide los segundos activos en aplicaciones core (VS Code, Jira, GitHub) versus tiempo en reposo.\n'+
+    '2. **Tasa de Clics y Navegación:** Mide la continuidad del trabajo iterativo mediante clics/minuto ('+miles(totClics)+' hoy) y enlaces abiertos ('+totLinks+' hoy).\n'+
+    '3. **Alternancia de Ventanas:** Detecta cambios de entorno para identificar cuellos de botella o multitarea excesiva.\n'+
+    '— *Técnica EPM:* Capturado automáticamente mediante eventos del navegador/agente local y normalizado en el índice 0–100 sin alterar la privacidad.',
+
+  planeacion: () => 
+    '**Cómo Planear la Entrevista de Retroalimentación:**\n'+
+    '1. **Análisis de Tendencias (15 min):** Revisa el historial acumulado en la consola EPM (ej. los últimos 14 días), evitando juzgar días u horas aisladas.\n'+
+    '2. **Puntos Clave:** Define máximo 2 fortalezas a reconocer y 2 áreas puntuales de mejora.\n'+
+    '3. **Convocatoria Formal:** Envía la invitación con 48h de anticipación indicando: "Sesión de Desarrollo y Desempeño".\n'+
+    '4. **Entorno Controlado:** Garantiza una reunión privada y libre de interrupciones.',
+
+  tips: () => 
+    '**Tips para Retroalimentación Exitosa y Manejo de Conflictos:**\n'+
+    '— **Aplica el Modelo SBI (Situación - Comportamiento - Impacto):** En vez de decir "Te ves distraído", di: "En las últimas dos semanas (S), el sensor EPM registró una baja sostenida en el tiempo activo después de las 15:00 (C), lo que retrasó las revisiones del código (I)".\n'+
+    '— **Separa la métrica de la persona:** Enfócate en las lecturas del tablero, no en el valor personal del colaborador.\n'+
+    '— **Preguntas abiertas:** Indaga con empatía: "Veo este cambio en la métrica, ¿qué bloqueos técnicos o de proceso has enfrentado?"\n'+
+    '— **Acuerdos co-creados:** Permite que el colaborador proponga las soluciones y fija una sesión de seguimiento en 15 días.'
+};
+
 const GUION = [
+  // ── INYECCIÓN DE LOS 5 PUNTOS DE CAPACITACIÓN ──────────────────────────
+  [/(bienvenid|mando medio|capacita|capacitacion|intro|lider|gerente)/, CAPACITACION.bienvenida],
+  [/(puesto|rol|desarrollador|senior software engineer|evaluar puesto|perfil)/, CAPACITACION.puesto],
+  [/(kpi|kpis|tecnica epm|obten|metrica|tablero|medicion)/, CAPACITACION.kpis],
+  [/(planear|planeacion|preparar entrevista|reunion|preparacion)/, CAPACITACION.planeacion],
+  [/(tip|tips|feedback|retroalimentacion|conflicto|sbi|exito|exitosa)/, CAPACITACION.tips],
+
+  // ── GUION ORIGINAL INTACTO ─────────────────────────────────────────────
   [/\bmariana\b|\bcordova\b/, () => ficha('mariana')+
     'Patrón estable: arranca fuerte de 09:00 a 12:00 y sostiene la tarde. Sin alertas en 14 días.\n'+
     'Ventanas: Figma 7 h 45 m, Notion 28 min, 47 min entre Slack y Meet. Cero sitios personales.'],
@@ -1129,10 +1172,8 @@ const GUION = [
     'Ventanas: Metabase 6 h 40 m y VS Code 1 h 45 m. Nada personal en todo el día.'],
 
   [/^\s*(hola|buenas|hey|que tal|saludos|buenos dias|buenas tardes)\b/, () =>
-    'Hola. Estoy leyendo la telemetría de **Célula Norte** en vivo.\n'+
-    'El índice del equipo va en **'+teamIdx+'/100**, con '+miles(totClics)+' clics y '+totLinks+' enlaces hoy, '+
-    'y **'+intentosVivos().length+' intentos** de abrir sitios bloqueados.\n'+
-    '¿Quieres el resumen del día, el detalle de alguien, o revisamos los bloqueos?'],
+    CAPACITACION.bienvenida() + '\n\n' +
+    '¿Quieres revisar la **definición del puesto**, la explicación de los **KPIs y técnica EPM**, cómo **planear la entrevista**, los **tips de feedback**, o explorar las métricas del equipo?'],
 
   [/(bloque|prohib|roblox|instagram|restring|veta|censur|lista negra|politica de sitio)/, () => {
     const porSitio = {};
@@ -1198,7 +1239,7 @@ const GUION = [
     'Puedes subir el umbral a 30 min en *Configuración → Umbrales*. Con 20 min este equipo genera unas '+
     '9 alertas al día; con 30 bajan a 3.'],
 
-  [/(como funciona|sensor|como mide|que mide|metrica|indice|formula|calcul)/, () =>
+  [/(como funciona|sensor|como mide|que mide|formula|calcul)/, () =>
     'El índice lo mandan **los clics y los enlaces abiertos** — el recorrido del cursor bajó a dato secundario, '+
     'porque medía movimiento y no intención.\n'+
     'Cada segundo se calcula:\n'+
@@ -1245,16 +1286,14 @@ const GUION = [
 ];
 
 const FALLBACK =
-  'Eso todavía no lo tengo guionado: esta demo responde con un set fijo de respuestas y no llama a ningún modelo.\n'+
-  'Prueba con *resumen del día*, *¿quién intentó entrar a Instagram?*, *¿cómo se calcula el índice?*, '+
-  '*¿qué sitios visitan?* o *privacidad*.';
+  'Puedo responder sobre la **capacitación para líderes** o sobre la **telemetría del equipo**.\n'+
+  'Prueba preguntando por: *mando medio*, *definición del puesto*, *KPIs*, *cómo planear entrevista*, *tips de feedback*, *resumen del día* o *privacidad*.';
 
 function responder(q){
   const n = norm(q);
   for (const [re, fn] of GUION) if (re.test(n)) return fn();
   return FALLBACK;
 }
-
 /* ── render de mensajes ─────────────────────────────── */
 function fmt(t, caret){
   let s = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
