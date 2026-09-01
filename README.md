@@ -1,12 +1,7 @@
-# Pulso — telemetría de actividad
-
-Prototipo de una plataforma de monitoreo de actividad laboral: mide clics y enlaces
-abiertos, muestra en qué ventanas y sitios pasa el día cada persona, y aplica una
-política de sitios bloqueados. Es una maqueta de una sola página, sin build ni
+Prototipo de una plataforma de monitoreo de actividad laboral. Es una maqueta de una sola página, sin build ni
 servidor: `index.html` se abre con doble clic y funciona.
 
-Hecho como tarea escolar. Los datos del equipo son inventados.
-
+Hecho como tarea escolar. Datos meramente ilustrativos y adjustables.
 ## Qué es real y qué está simulado
 
 El sensor de arriba **mide de verdad** a quien abre la página, con las APIs que el
@@ -45,10 +40,7 @@ la línea de tiempo, los destinos y los bloqueos son datos inventados; el resto 
 
 ## Notas de diseño
 
-- Tema claro cálido, inspirado en replit.com.
-- Paleta categórica validada para daltonismo sobre fondo claro (ΔE ≥ 8 en deutan,
-  protan y tritan; contraste ≥ 3:1). El neutro "sin ventana activa" va con textura
-  diagonal, no con color, porque representa ausencia de dato.
+- Tema claro en tonos azules, inspirado en Oracle Cloud.
 - El asistente responde con un guion fijo por coincidencia de palabras. No llama a
   ningún modelo: cero costo, funciona sin internet y no se cae en una presentación.
 
