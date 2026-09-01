@@ -664,12 +664,12 @@ const TEAM = [
 const HOURS = ['09','10','11','12','13','14','15','16','17','18'];
 /* forma de la jornada; los clics por hora se reparten con estos pesos */
 const SHAPE = {
-  mariana:[62,78,94,81,66,18,79,92,84,58],
-  diego:  [48,74,96,97,82,26,91,95,93,71],
-  renata: [61,58,14, 0,44,15,57,72,63,39],
-  tomas:  [35,63,77,80,88,24,74,76,61,55],
-  paulina:[72,69,58,41,47,12,29,16, 0, 0],
-  iker:   [44,57,81,66,73,28,62,77,74,46]
+  mariana:   [62,78,94,81,66,18,79,92,84,58],
+  francisco: [48,74,96,97,82,26,91,95,93,71],
+  diego:     [61,58,14,0,44,15,57,72,63,39],
+  valeria:   [35,63,77,80,88,24,74,76,61,55],
+  fernanda:  [72,69,58,41,47,12,29,16,0,0],
+  ana:       [44,57,81,66,73,28,62,77,74,46]
 };
 const DAY = {};
 TEAM.forEach(p => {
@@ -695,19 +695,43 @@ const APP_CAT = {
 };
 /* jornada de 600 min desde las 09:00; '—' = sin ventana activa */
 const SEQ = {
-  mariana:[['Figma',85],['Slack',12],['Figma',68],['Google Meet',25],['Figma',55],['—',45],
-           ['Notion',28],['Figma',95],['Slack',10],['Figma',62],['Gmail',15],['Figma',100]],
-  diego:  [['VS Code',95],['github.com',25],['VS Code',80],['stackoverflow.com',18],['VS Code',62],['—',40],
-           ['Slack',12],['VS Code',105],['github.com',30],['developer.mozilla.org',22],['VS Code',111]],
-  renata: [['Jira',35],['—',55],['Jira',28],['Slack',10],['—',42],['Jira',32],['—',45],['Jira',60],
-           ['stackoverflow.com',20],['—',38],['Jira',75],['Gmail',12],['Jira',148]],
-  tomas:  [['VS Code',80],['Slack',15],['VS Code',70],['—',55],['Google Meet',60],['VS Code',90],
-           ['Metabase',25],['VS Code',85],['github.com',30],['Gmail',10],['VS Code',80]],
-  paulina:[['Zendesk',70],['Gmail',20],['Zendesk',55],['WhatsApp Web',15],['Zendesk',40],['—',50],
-           ['Zendesk',35],['YouTube',45],['—',30],['Zendesk',25],['Mercado Libre',35],['—',95],
-           ['YouTube',40],['—',45]],
-  iker:   [['Metabase',65],['VS Code',45],['Metabase',70],['Google',20],['—',45],['Metabase',85],
-           ['Slack',12],['VS Code',60],['Metabase',95],['stackoverflow.com',18],['Metabase',85]]
+  mariana: [
+    ['Figma',85],['Slack',12],['Figma',68],['Google Meet',25],
+    ['Figma',55],['—',45],['Notion',28],['Figma',95],
+    ['Slack',10],['Figma',62],['Gmail',15],['Figma',100]
+  ],
+
+  francisco: [
+    ['VS Code',95],['github.com',25],['VS Code',80],
+    ['stackoverflow.com',18],['VS Code',62],['—',40],
+    ['Slack',12],['VS Code',105],['github.com',30],
+    ['developer.mozilla.org',22],['VS Code',111]
+  ],
+
+  diego: [
+    ['Jira',35],['—',55],['Jira',28],['Slack',10],['—',42],
+    ['Jira',32],['—',45],['Jira',60],['stackoverflow.com',20],
+    ['—',38],['Jira',75],['Gmail',12],['Jira',148]
+  ],
+
+  valeria: [
+    ['VS Code',80],['Slack',15],['VS Code',70],['—',55],
+    ['Google Meet',60],['VS Code',90],['Metabase',25],
+    ['VS Code',85],['github.com',30],['Gmail',10],['VS Code',80]
+  ],
+
+  fernanda: [
+    ['Zendesk',70],['Gmail',20],['Zendesk',55],['WhatsApp Web',15],
+    ['Zendesk',40],['—',50],['Zendesk',35],['YouTube',45],
+    ['—',30],['Zendesk',25],['Mercado Libre',35],['—',95],
+    ['YouTube',40],['—',45]
+  ],
+
+  ana: [
+    ['Metabase',65],['VS Code',45],['Metabase',70],['Google',20],
+    ['—',45],['Metabase',85],['Slack',12],['VS Code',60],
+    ['Metabase',95],['stackoverflow.com',18],['Metabase',85]
+  ]
 };
 const JORNADA = {};
 TEAM.forEach(p => {
@@ -724,14 +748,14 @@ const BLOQUEADOS = [
   {sitio:'Roblox',    dominio:'roblox.com',    activo:true}
 ];
 const INTENTOS = [
-  {k:'renata',  dom:'instagram.com', min:291},
-  {k:'paulina', dom:'instagram.com', min:375},
-  {k:'paulina', dom:'instagram.com', min:402},
-  {k:'paulina', dom:'instagram.com', min:448},
-  {k:'paulina', dom:'roblox.com',    min:462},
-  {k:'paulina', dom:'instagram.com', min:505},
-  {k:'paulina', dom:'roblox.com',    min:528},
-  {k:'paulina', dom:'instagram.com', min:540}
+  {k:'diego',    dom:'instagram.com', min:291},
+  {k:'fernanda', dom:'instagram.com', min:375},
+  {k:'fernanda', dom:'instagram.com', min:402},
+  {k:'fernanda', dom:'instagram.com', min:448},
+  {k:'fernanda', dom:'roblox.com',    min:462},
+  {k:'fernanda', dom:'instagram.com', min:505},
+  {k:'fernanda', dom:'roblox.com',    min:528},
+  {k:'fernanda', dom:'instagram.com', min:540}
 ].sort((a,b) => a.min - b.min);
 
 const activo = dom => { const b = BLOQUEADOS.find(x => x.dominio === dom); return b && b.activo; };
