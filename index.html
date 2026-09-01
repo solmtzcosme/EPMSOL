@@ -4,25 +4,26 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <style>
 :root{
-  --ground:#FBF7F3;
-  --panel:#FFFFFF;
-  --panel-2:#F4F0E9;
-  --raise:#EDE8DF;
-  --line:#E5DED3;
-  --line-soft:#EFE9E0;
-  --ink:#1E1D1B;
-  --ink-2:#6A655C;
-  --ink-3:#9C958A;
-  --accent:#F0602E;
-  --accent-deep:#D24C1E;
-  --accent-soft:#FCEAE1;
-  --coral:#F5A08A;
-  --good:#12885A;
-  --warn:#B0731A;
-  --crit:#D0413B;
-  --info:#2A6FD6;
-  --cat-trabajo:#EB6834; --cat-comm:#1AA876; --cat-personal:#4A3AA7; --cat-sin:#CFC7BA;
-  --h0:#F3EEE7; --h1:#FBDDCD; --h2:#F8C1A4; --h3:#F5A279; --h4:#F1834F; --h5:#E2642C; --h6:#C24A17;
+  --ground:#0A2C4E;
+  --ground-2:#1B6299;
+  --panel:rgba(8,35,61,.68);
+  --panel-2:rgba(9,43,73,.62);
+  --raise:rgba(27,98,153,.42);
+  --line:rgba(199,224,242,.22);
+  --line-soft:rgba(199,224,242,.14);
+  --ink:#F5FAFD;
+  --ink-2:#C7D9E6;
+  --ink-3:#91AFC2;
+  --accent:#FFB74A;
+  --accent-deep:#FFC86F;
+  --accent-soft:rgba(255,183,74,.16);
+  --coral:#FFB74A;
+  --good:#45DFC5;
+  --warn:#FFB74A;
+  --crit:#FF8E8E;
+  --info:#C7A0FF;
+  --cat-trabajo:#FFB74A; --cat-comm:#45DFC5; --cat-personal:#C7A0FF; --cat-sin:rgba(199,224,242,.22);
+  --h0:#E8F4FB; --h1:#C9E3F2; --h2:#A8D0E7; --h3:#83B9D8; --h4:#5F9FC4; --h5:#3D82AC; --h6:#21668F;
   --sans:'Instrument Sans',system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;
   --mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
   --r:14px; --r-sm:10px; --r-xs:7px;
@@ -30,11 +31,1305 @@
 }
 *{box-sizing:border-box}
 body{
-  margin:0; background:var(--ground); color:var(--ink);
+  margin:0; background:linear-gradient(90deg,#0A2C4E 0%,#1B6299 100%);
+  background-attachment:fixed; color:var(--ink);
   font-family:var(--sans); font-size:14px; line-height:1.5;
   -webkit-font-smoothing:antialiased;
 }
 h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:5px}
+::selection{background:var(--accent-soft); color:var(--ink)}
+
+.lbl{font-size:10.5px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-3)}
+.num{font-family:var(--mono); font-variant-numeric:tabular-nums}
+
+/* recursos gráficos: tile, chip, botón contorneado y botón circular sobre vidrio oscuro */
+.tile{
+  width:34px; height:34px; border-radius:var(--r-xs); background:var(--panel-2);
+  display:grid; place-items:center; flex:none; color:var(--ink);
+}
+.tile svg{width:17px; height:17px}
+.chip{
+  font-family:var(--sans); font-size:12px; color:var(--ink-2); cursor:pointer;
+  background:var(--panel-2); border:1px solid transparent; border-radius:999px; padding:6px 13px;
+  transition:background .15s, color .15s, border-color .15s;
+}
+.chip:hover{background:var(--raise); color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--accent-soft); border-color:var(--accent); color:var(--accent-deep); font-weight:600}
+.btn-outline{
+  font-family:var(--sans); font-size:12.5px; font-weight:600; color:var(--accent-deep); cursor:pointer;
+  background:transparent; border:1.5px solid var(--accent); border-radius:999px; padding:7px 15px;
+  transition:background .15s;
+}
+.btn-outline:hover{background:var(--accent-soft)}
+.btn-coral{
+  flex:none; width:38px; height:38px; border:none; border-radius:50%; background:var(--coral); color:#fff;
+  cursor:pointer; display:grid; place-items:center; transition:background .15s;
+}
+.btn-coral:hover{background:var(--accent)}
+.btn-coral svg{width:17px; height:17px}
+
+/* ── topbar ─────────────────────────────────────────── */
+.topbar{
+  position:sticky; top:0; z-index:40; height:var(--bar);
+  display:flex; align-items:center; gap:14px; padding:0 20px;
+  background:rgba(7,31,54,.54); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line-soft);
+}
+.brand{display:flex; align-items:center; gap:9px; font-weight:700; font-size:16px; letter-spacing:-.02em}
+.glyph{width:24px; height:24px; border-radius:7px; background:var(--accent); display:grid; place-items:center; flex:none}
+.glyph i{width:7px; height:7px; border-radius:50%; background:#fff; display:block}
+.crumb{color:var(--ink-3); font-size:13px}
+.crumb b{color:var(--ink-2); font-weight:500}
+.topbar .spacer{flex:1}
+.live{
+  display:flex; align-items:center; gap:8px; padding:6px 13px;
+  border-radius:999px; background:var(--panel-2); font-size:12px; color:var(--ink-2);
+}
+.live .num{font-size:11.5px}
+.beacon{width:6px; height:6px; border-radius:50%; background:var(--good); flex:none;
+  box-shadow:0 0 0 0 rgba(18,136,90,.5); animation:ping 2.4s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(18,136,90,.45)}70%{box-shadow:0 0 0 7px rgba(18,136,90,0)}100%{box-shadow:0 0 0 0 rgba(18,136,90,0)}}
+.me{width:30px; height:30px; border-radius:50%; background:var(--panel-2); border:1px solid var(--line);
+  display:grid; place-items:center; font-size:11px; font-weight:600; color:var(--ink-2)}
+
+/* ── shell ──────────────────────────────────────────── */
+.shell{display:grid; grid-template-columns:214px minmax(0,1fr) 378px; align-items:start}
+.rail{
+  position:sticky; top:var(--bar); padding:18px 12px;
+  border-right:1px solid var(--line-soft); min-height:calc(100vh - var(--bar));
+  display:flex; flex-direction:column; gap:2px;
+}
+.rail .lbl{padding:12px 10px 7px}
+.rail a{
+  display:flex; align-items:center; gap:10px; padding:6px 10px 6px 6px; border-radius:var(--r-sm);
+  color:var(--ink-2); text-decoration:none; font-size:13.5px;
+}
+.rail a:hover{background:var(--panel-2); color:var(--ink)}
+.rail a[aria-current]{color:var(--ink); font-weight:600}
+.rail a[aria-current] .tile{background:var(--accent-soft); color:var(--accent-deep)}
+.rail .tile{width:28px; height:28px; border-radius:var(--r-xs); background:transparent; color:var(--ink-3)}
+.rail .tile svg{width:16px; height:16px}
+.rail a:hover .tile{color:var(--ink-2)}
+.rail .tag{margin-left:auto; font-size:11px; font-weight:600; color:var(--crit)}
+
+.console{padding:22px 26px 44px; display:flex; flex-direction:column; gap:16px; min-width:0}
+
+.card{background:var(--panel); border:1px solid var(--line-soft); border-radius:var(--r)}
+.card-hd{display:flex; align-items:center; gap:12px; padding:15px 18px; border-bottom:1px solid var(--line-soft)}
+.card-hd h2{font-size:14.5px}
+.card-hd .lbl{margin-left:auto}
+
+/* ── sensor ─────────────────────────────────────────── */
+.sensor-body{padding:20px 18px; display:grid; grid-template-columns:auto minmax(0,1fr); gap:24px; align-items:center}
+.dial{position:relative; width:136px; height:136px; flex:none}
+.dial svg{width:136px; height:136px; transform:rotate(-90deg)}
+.dial .track{fill:none; stroke:var(--h0); stroke-width:10}
+.dial .fill{fill:none; stroke:var(--accent); stroke-width:10; stroke-linecap:round;
+  transition:stroke-dashoffset .45s cubic-bezier(.22,1,.36,1)}
+.dial .mid{position:absolute; inset:0; display:grid; place-content:center; text-align:center; gap:2px}
+.dial .val{font-family:var(--mono); font-size:36px; font-weight:700; line-height:1; letter-spacing:-.04em; font-variant-numeric:tabular-nums}
+.dial .of{font-size:9.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--ink-3)}
+
+.reads{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px}
+.read{background:var(--panel-2); border-radius:var(--r-sm); padding:11px 13px; display:flex; flex-direction:column; gap:3px}
+.read.key{background:var(--accent-soft)}
+.read .v{font-family:var(--mono); font-size:19px; font-weight:600; letter-spacing:-.03em; font-variant-numeric:tabular-nums}
+.read .v small{font-size:11px; color:var(--ink-3); font-weight:400; margin-left:2px}
+.read.key .v{color:var(--accent-deep)}
+
+.state{display:inline-flex; align-items:center; gap:7px; margin-top:14px; padding:6px 13px 6px 10px;
+  border-radius:999px; font-size:12.5px; font-weight:600}
+.state .dot{width:7px; height:7px; border-radius:50%; flex:none; background:currentColor}
+.s-foco{color:var(--good); background:#E6F4ED}
+.s-baja{color:var(--warn); background:#FBF0DC}
+.s-nula{color:var(--crit); background:#FBE7E6}
+.s-junta,.s-otra{color:var(--info); background:#E6EEFB}
+
+.spark-wrap{padding:0 18px 16px}
+.spark-top{display:flex; align-items:baseline; gap:10px; padding-bottom:8px}
+.spark-top .hint{margin-left:auto; font-family:var(--mono); font-size:11.5px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.spark{display:block; width:100%; height:78px; cursor:crosshair}
+.spark .grid{stroke:var(--line-soft); stroke-width:1}
+.spark .area{fill:url(#sparkGrad)}
+.spark .line{fill:none; stroke:var(--accent); stroke-width:2; stroke-linejoin:round; stroke-linecap:round}
+.spark .cap{fill:var(--accent); stroke:var(--panel); stroke-width:2}
+.spark .cross{stroke:var(--ink-3); stroke-width:1; stroke-dasharray:3 3}
+
+/* ── kpis ───────────────────────────────────────────── */
+.kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:12px}
+.kpi{background:var(--panel); border:1px solid var(--line-soft); border-radius:var(--r); padding:15px 16px}
+.kpi .top{display:flex; align-items:center; gap:10px; margin-bottom:10px}
+.kpi .lbl{line-height:1.3}
+.kpi .v{font-family:var(--mono); font-size:28px; font-weight:700; letter-spacing:-.045em; line-height:1.1;
+  white-space:nowrap; font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:12px; color:var(--ink-3); font-weight:400}
+.kpi .delta{font-size:11.5px; margin-top:6px; color:var(--ink-3)}
+.up{color:var(--good)} .down{color:var(--crit)}
+
+/* ── equipo ─────────────────────────────────────────── */
+.roster{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px; padding:16px 18px}
+.person{background:var(--panel-2); border-radius:var(--r-sm); padding:14px 15px;
+  min-width:0; display:flex; flex-direction:column; gap:12px; transition:background .18s}
+.person:hover{background:var(--raise)}
+.p-hd{display:flex; align-items:center; gap:11px}
+.av{width:36px; height:36px; border-radius:var(--r-xs); flex:none; display:grid; place-items:center;
+  font-size:12px; font-weight:700}
+.p-id{min-width:0}
+.p-id .n{font-weight:600; font-size:13.5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.p-id .r{font-size:11.5px; color:var(--ink-3); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.p-hd .score{margin-left:auto; font-family:var(--mono); font-size:22px; font-weight:700; letter-spacing:-.04em;
+  font-variant-numeric:tabular-nums; line-height:1}
+.p-stats{display:flex; gap:16px; font-size:12px; color:var(--ink-2)}
+.p-stats b{font-family:var(--mono); font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums}
+.bars{display:flex; align-items:flex-end; gap:2px; height:30px}
+.bars b{flex:1; border-radius:2px 2px 0 0; background:var(--h4); min-height:2px; display:block; transition:height .5s ease}
+.p-ft{display:flex; align-items:center; flex-wrap:wrap; gap:6px 8px; min-width:0; font-size:11px; color:var(--ink-3)}
+.p-ft .sep{margin-left:auto}
+.pill{display:inline-flex; align-items:center; gap:6px; padding:4px 10px 4px 8px; border-radius:999px;
+  font-size:11.5px; font-weight:600; white-space:nowrap}
+.pill .dot{width:6px; height:6px; border-radius:50%; background:currentColor; flex:none}
+
+/* ── ventanas y sitios ──────────────────────────────── */
+.picker{display:flex; flex-wrap:wrap; gap:6px; margin-left:auto}
+.tl-wrap{padding:18px 18px 6px}
+.tl-top{display:flex; align-items:baseline; gap:10px; padding-bottom:9px}
+.tl-top .who{font-size:14px; font-weight:600}
+.tl-top .lbl{margin-left:auto}
+.tl{position:relative; display:flex; height:38px; border-radius:var(--r-xs); overflow:hidden; background:var(--h0)}
+.tl i{display:block; min-width:2px; cursor:default; transition:filter .12s}
+.tl i:hover{filter:brightness(.92)}
+.tl i.sin{background:repeating-linear-gradient(45deg,rgba(199,224,242,.20) 0 4px,transparent 4px 8px),rgba(5,28,48,.30)}
+.tl .mark{
+  position:absolute; top:0; bottom:0; width:3px; margin-left:-1.5px; background:var(--crit);
+  border-radius:2px; box-shadow:0 0 0 1.5px var(--panel); cursor:default;
+}
+.tl .mark::after{content:''; position:absolute; left:-6px; right:-6px; top:0; bottom:0}
+.tl-axis{display:flex; margin-top:6px; font-family:var(--mono); font-size:10px; color:var(--ink-3)}
+.tl-axis span{flex:1; text-align:left}
+.tl-axis span:last-child{flex:0; text-align:right}
+.tl-note{display:flex; align-items:center; gap:7px; padding:9px 0 0; font-size:11.5px; color:var(--ink-3)}
+.tl-note i{width:3px; height:12px; background:var(--crit); border-radius:2px; flex:none}
+
+.split{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; padding:18px}
+.split h3{font-size:12.5px; margin-bottom:14px; color:var(--ink-2)}
+.dest{display:flex; flex-direction:column; gap:11px}
+.drow{display:grid; grid-template-columns:10px minmax(0,1fr) auto; gap:10px; align-items:center}
+.drow .cdot{width:10px; height:10px; border-radius:3px}
+.drow .nm{font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.drow .tm{font-family:var(--mono); font-size:11.5px; color:var(--ink-2); font-variant-numeric:tabular-nums}
+.drow .track{grid-column:2/4; height:6px; border-radius:3px; background:var(--h0); overflow:hidden; margin-top:-3px}
+.drow .track i{display:block; height:100%; border-radius:3px}
+
+.mix{display:flex; flex-direction:column; gap:11px}
+.mrowx{display:grid; grid-template-columns:92px minmax(0,1fr); gap:11px; align-items:center; cursor:pointer}
+.mrowx .who{font-size:12.5px; color:var(--ink-2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.mrowx:hover .who,.mrowx[aria-pressed="true"] .who{color:var(--ink)}
+.mrowx[aria-pressed="true"] .who{font-weight:600}
+.mrowx .stack{display:flex; height:16px; border-radius:4px; overflow:hidden; background:var(--h0)}
+.mrowx .stack i{display:block; min-width:1px}
+.mrowx .stack i.sin{background:repeating-linear-gradient(45deg,rgba(199,224,242,.20) 0 4px,transparent 4px 8px),rgba(5,28,48,.30)}
+
+.catleg{display:flex; flex-wrap:wrap; align-items:center; gap:16px; padding:0 18px 18px; font-size:12px; color:var(--ink-2)}
+.catleg span{display:inline-flex; align-items:center; gap:7px}
+.catleg i{width:11px; height:11px; border-radius:3px; flex:none}
+.catleg i.sin{background:repeating-linear-gradient(45deg,rgba(199,224,242,.20) 0 3px,transparent 3px 6px),rgba(5,28,48,.30)}
+
+/* ── política de sitios ─────────────────────────────── */
+.block-list{display:flex; flex-direction:column; gap:10px; padding:16px 18px}
+.brow{display:flex; align-items:center; gap:12px; padding:11px 13px; background:var(--panel-2); border-radius:var(--r-sm)}
+.brow.off{opacity:.5}
+.brow .tile{background:#FBE7E6; color:var(--crit); width:32px; height:32px}
+.brow.off .tile{background:var(--raise); color:var(--ink-3)}
+.brow .who{min-width:0; flex:1; display:flex; flex-direction:column; gap:1px}
+.brow .who .n,.brow .who .d{display:block}
+.brow .who .n{font-size:13.5px; font-weight:600}
+.brow .who .d{font-family:var(--mono); font-size:11px; color:var(--ink-3)}
+.brow .hits{font-size:12px; color:var(--ink-2); white-space:nowrap; text-align:right}
+.brow .hits b{font-family:var(--mono); font-size:15px; font-weight:700; color:var(--crit); display:block; line-height:1.2}
+.brow.off .hits b{color:var(--ink-3)}
+.sw{width:40px; height:23px; border-radius:999px; background:var(--good); border:none; cursor:pointer;
+  position:relative; flex:none; transition:background .18s}
+.sw::after{content:''; position:absolute; top:3px; left:20px; width:17px; height:17px; border-radius:50%;
+  background:#fff; transition:left .18s}
+.sw[aria-checked="false"]{background:var(--ink-3)}
+.sw[aria-checked="false"]::after{left:3px}
+
+.add-site{display:flex; gap:9px; padding:0 18px 16px}
+.add-site input{
+  flex:1; min-width:0; background:var(--panel); border:1px solid var(--line); border-radius:var(--r-sm);
+  padding:9px 13px; color:var(--ink); font-family:var(--sans); font-size:13px;
+}
+.add-site input::placeholder{color:var(--ink-3)}
+.add-site input:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 4px var(--accent-soft)}
+
+.log-hits{border-top:1px solid var(--line-soft); padding:14px 18px 16px}
+.log-hits h3{font-size:12.5px; color:var(--ink-2); margin-bottom:11px}
+.hit{display:flex; align-items:center; gap:10px; padding:5px 0; font-size:12.5px; color:var(--ink-2)}
+.hit .t{font-family:var(--mono); font-size:11.5px; color:var(--ink-3); width:44px; flex:none}
+.hit b{color:var(--ink); font-weight:600}
+.hit .tagx{margin-left:auto; font-size:11px; font-weight:600; color:var(--crit); background:#FBE7E6;
+  padding:3px 9px; border-radius:999px; white-space:nowrap}
+
+/* ── matriz ─────────────────────────────────────────── */
+.matrix-scroll{overflow-x:auto; padding:16px 18px 4px}
+.matrix{min-width:580px}
+.mrow{display:grid; grid-template-columns:134px repeat(10,1fr); gap:3px; align-items:center; margin-bottom:3px}
+.mrow .who{font-size:12.5px; color:var(--ink-2); padding-right:10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.mrow.head span{font-family:var(--mono); font-size:10px; color:var(--ink-3); text-align:center}
+.cell{height:26px; border-radius:4px; background:var(--h0); cursor:default; transition:transform .12s, box-shadow .12s}
+.cell:hover{transform:scale(1.14); box-shadow:0 0 0 2px var(--panel),0 0 0 3px var(--accent)}
+.mlegend{display:flex; flex-wrap:wrap; align-items:center; gap:9px; padding:13px 18px 17px; font-size:11.5px; color:var(--ink-3)}
+.mlegend .ramp{display:flex; gap:2px}
+.mlegend .ramp i{width:22px; height:10px; border-radius:2px; display:block}
+
+/* ── método ─────────────────────────────────────────── */
+.method{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px}
+.method div{background:var(--panel); border:1px solid var(--line-soft); border-radius:var(--r); padding:17px 18px}
+.method h3{font-size:13px; margin-bottom:8px}
+.method p{margin:0; font-size:12.5px; color:var(--ink-2); line-height:1.65}
+.method code{font-family:var(--mono); font-size:11.5px; color:var(--accent-deep); background:var(--accent-soft);
+  padding:2px 6px; border-radius:5px}
+
+/* ── chat ───────────────────────────────────────────── */
+.chat{
+  position:sticky; top:var(--bar); height:calc(100vh - var(--bar));
+  border-left:1px solid var(--line-soft); background:rgba(6,31,54,.72);
+  backdrop-filter:blur(18px) saturate(120%); -webkit-backdrop-filter:blur(18px) saturate(120%);
+  display:flex; flex-direction:column; min-width:0;
+}
+.chat-hd{display:flex; align-items:center; gap:11px; padding:15px 18px; border-bottom:1px solid var(--line-soft); flex:none}
+.chat-hd .glyph{width:30px; height:30px; border-radius:9px}
+.chat-hd .t{font-size:14px; font-weight:600; line-height:1.25}
+.chat-hd .s{font-size:11.5px; color:var(--ink-3)}
+.demo-chip{margin-left:auto; font-size:10px; font-weight:600; letter-spacing:.05em; text-transform:uppercase;
+  color:var(--warn); background:#FBF0DC; padding:4px 9px; border-radius:999px}
+.log{flex:1; overflow-y:auto; padding:18px; display:flex; flex-direction:column; gap:16px; scrollbar-width:thin}
+.log::-webkit-scrollbar{width:9px}
+.log::-webkit-scrollbar-thumb{background:var(--raise); border-radius:5px; border:2px solid var(--panel)}
+.msg{display:flex; gap:10px; max-width:100%; animation:rise .3s cubic-bezier(.22,1,.36,1) both}
+@keyframes rise{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+.msg .ic{width:24px; height:24px; border-radius:7px; flex:none; display:grid; place-items:center;
+  font-size:9.5px; font-weight:700}
+.msg.bot .ic{background:var(--accent); color:#fff}
+.msg.user{flex-direction:row-reverse}
+.msg.user .ic{background:var(--panel-2); color:var(--ink-3)}
+.bubble{font-size:13.5px; line-height:1.65; min-width:0; overflow-wrap:anywhere}
+.msg.user .bubble{background:var(--panel-2); padding:9px 13px; border-radius:14px 14px 4px 14px}
+.bubble strong{font-weight:700}
+.bubble .k{font-family:var(--mono); font-size:12px; color:var(--accent-deep); background:var(--accent-soft);
+  padding:1px 5px; border-radius:4px}
+.bubble ul{margin:8px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:6px}
+.bubble li{padding-left:14px; position:relative; color:var(--ink-2)}
+.bubble li::before{content:''; position:absolute; left:2px; top:9px; width:4px; height:4px; border-radius:50%; background:var(--ink-3)}
+.caret{display:inline-block; width:7px; height:14px; background:var(--accent); vertical-align:-2px;
+  margin-left:2px; animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.dots{display:flex; gap:4px; padding:6px 0}
+.dots i{width:5px; height:5px; border-radius:50%; background:var(--ink-3); animation:bob 1.1s ease-in-out infinite}
+.dots i:nth-child(2){animation-delay:.15s} .dots i:nth-child(3){animation-delay:.3s}
+@keyframes bob{0%,60%,100%{opacity:.3; transform:translateY(0)}30%{opacity:1; transform:translateY(-3px)}}
+
+.chips{display:flex; flex-wrap:wrap; gap:7px; padding:0 18px 14px; flex:none}
+.composer{flex:none; padding:14px 18px 18px; border-top:1px solid var(--line-soft); display:flex; gap:9px; align-items:center}
+.composer input{
+  flex:1; min-width:0; background:var(--panel-2); border:1px solid transparent; border-radius:999px;
+  padding:11px 16px; color:var(--ink); font-family:var(--sans); font-size:13.5px;
+}
+.composer input::placeholder{color:var(--ink-3)}
+.composer input:focus{outline:none; background:var(--panel); border-color:var(--accent); box-shadow:0 0 0 4px var(--accent-soft)}
+
+/* ── tooltip ────────────────────────────────────────── */
+#tip{
+  position:fixed; z-index:90; pointer-events:none; opacity:0; transform:translate(-50%,-100%);
+  background:var(--ink); border-radius:var(--r-xs); padding:7px 11px;
+  font-family:var(--mono); font-size:11.5px; color:#fff; white-space:nowrap;
+  box-shadow:0 8px 24px rgba(30,29,27,.18); transition:opacity .12s;
+}
+#tip b{color:var(--coral); font-weight:500}
+
+@media (max-width:1180px){
+  .shell{grid-template-columns:200px minmax(0,1fr)}
+  .chat{grid-column:1/-1; position:static; height:auto; border-left:none; border-top:1px solid var(--line-soft)}
+  .log{max-height:460px}
+}
+@media (max-width:900px){ .split{grid-template-columns:minmax(0,1fr)} }
+@media (max-width:760px){
+  .shell{grid-template-columns:1fr}
+  .rail{position:static; min-height:0; flex-direction:row; overflow-x:auto; gap:6px; padding:10px 12px;
+    border-right:none; border-bottom:1px solid var(--line-soft)}
+  .rail .lbl,.rail .tag{display:none}
+  .rail a{white-space:nowrap; background:var(--panel-2)}
+  .console{padding:14px}
+  .roster{grid-template-columns:minmax(0,1fr); padding:12px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .reads{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sensor-body{grid-template-columns:1fr; justify-items:center; text-align:center}
+  .sensor-body p{text-align:left}
+  .reads{width:100%}
+  .crumb{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important}
+}
+</style>
+
+<header class="topbar">
+  <div class="brand"><span class="glyph"><i></i></span>Pulso</div>
+  <div class="crumb">operaciones&nbsp;/&nbsp;<b>Célula Norte</b></div>
+  <div class="spacer"></div>
+  <div class="live"><span class="beacon"></span>en vivo <span class="num" id="clock">--:--:--</span></div>
+  <div class="me">BD</div>
+</header>
+
+<div class="shell">
+
+  <nav class="rail">
+    <div class="lbl">Monitoreo</div>
+    <a href="#sensor" aria-current="page"><span class="tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 16 2.5-6.5L20 11z"/></svg>
+      </span>Señal en vivo</a>
+    <a href="#roster"><span class="tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 11a3 3 0 1 0 0-6M18 20a5.5 5.5 0 0 0-2-4.3"/></svg>
+      </span>Equipo</a>
+    <a href="#ventanas"><span class="tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="5" width="14" height="11" rx="2"/><path d="M2.5 9h14M8 19h11a2 2 0 0 0 2-2V9"/></svg>
+      </span>Ventanas y sitios</a>
+    <a href="#politica"><span class="tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M6 6l12 12"/></svg>
+      </span>Sitios bloqueados <span class="tag" id="tagBlock">8</span></a>
+    <a href="#matriz"><span class="tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M9 10v10"/></svg>
+      </span>Jornada</a>
+    <div class="lbl">Configuración</div>
+    <a href="#metodo"><span class="tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20V8"/></svg>
+      </span>Umbrales</a>
+    <a href="#metodo"><span class="tile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </span>Privacidad</a>
+  </nav>
+
+  <main class="console">
+
+    <!-- PORTADA -->
+    <section class="cover" aria-label="Portada de Pulso Telemetría">
+      <div class="cover-top">
+        <div class="cover-brand"><span class="glyph"><i></i></span>Pulso</div>
+        <div class="cover-meta">OPERACIONES / CÉLULA NORTE<br>TELEMETRÍA · SESIÓN LOCAL</div>
+      </div>
+      <div class="cover-tile" aria-hidden="true"></div>
+      <div class="cover-copy">
+        <h1>La jornada,<br>en una sola señal.</h1>
+        <p class="cover-sub">Actividad, ventanas y alertas en tiempo real — sin confundir señal con productividad.</p>
+      </div>
+      <a class="cover-arrow" href="#roster" aria-label="Ir al equipo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 5v13M6.5 12.5 12 18l5.5-5.5"/>
+        </svg>
+      </a>
+    </section>
+
+    <!-- SENSOR: clics y enlaces de quien está viendo la página -->
+    <section class="card" id="sensor">
+      <div class="card-hd">
+        <h2>Tu sensor de clics y enlaces</h2>
+        <span class="lbl">muestreo 1 Hz · sesión local</span>
+      </div>
+      <div class="sensor-body">
+        <div>
+          <div class="dial">
+            <svg viewBox="0 0 136 136" aria-hidden="true">
+              <circle class="track" cx="68" cy="68" r="56"/>
+              <circle class="fill" id="ring" cx="68" cy="68" r="56" stroke-dasharray="351.9" stroke-dashoffset="351.9"/>
+            </svg>
+            <div class="mid">
+              <span class="val" id="scoreVal">0</span>
+              <span class="of">Índice / 100</span>
+            </div>
+          </div>
+          <div style="text-align:center"><span class="state s-nula" id="statePill"><i class="dot"></i><span id="stateTxt">Sin señal</span></span></div>
+        </div>
+        <div>
+          <div class="reads">
+            <div class="read key"><span class="lbl">Clics</span><span class="v num" id="rClicks">0</span></div>
+            <div class="read key"><span class="lbl">Enlaces abiertos</span><span class="v num" id="rLinks">0</span></div>
+            <div class="read"><span class="lbl">Clics por min</span><span class="v num" id="rCpm">0</span></div>
+            <div class="read"><span class="lbl">Cambios de ventana</span><span class="v num" id="rSwitch">0</span></div>
+            <div class="read"><span class="lbl">Fuera de foco</span><span class="v" id="rAway">0<small>s</small></span></div>
+            <div class="read"><span class="lbl">Con señal</span><span class="v" id="rOn">0<small>s</small></span></div>
+            <div class="read"><span class="lbl">Sin señal</span><span class="v" id="rOff">0<small>s</small></span></div>
+            <div class="read"><span class="lbl">Recorrido</span><span class="v" id="rDist">0<small>m</small></span></div>
+          </div>
+          <p style="margin:14px 0 0; font-size:12.5px; color:var(--ink-2); line-height:1.65">
+            El índice lo mandan <strong>tus clics y los enlaces que abres</strong>: haz clic aquí o navega con
+            el menú de la aplicación y verás moverse la aguja. Cambia de pestaña y sube <em>Cambios de ventana</em>:
+            desde el navegador se puede saber <strong>que</strong> te fuiste, pero nunca <strong>a dónde</strong>.
+          </p>
+        </div>
+      </div>
+      <div class="spark-wrap">
+        <div class="spark-top">
+          <span class="lbl">Últimos 60 segundos</span>
+          <span class="hint" id="sparkHint">promedio 0</span>
+        </div>
+        <svg class="spark" id="spark" viewBox="0 0 600 78" preserveAspectRatio="none" role="img" aria-label="Índice de clics y enlaces de los últimos 60 segundos">
+          <defs>
+            <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFB74A" stop-opacity=".28"/>
+              <stop offset="100%" stop-color="#FFB74A" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line class="grid" x1="0" y1="20.5" x2="600" y2="20.5"/>
+          <line class="grid" x1="0" y1="48.5" x2="600" y2="48.5"/>
+          <path class="area" id="sparkArea" d=""/>
+          <path class="line" id="sparkLine" d=""/>
+          <line class="cross" id="sparkCross" x1="0" y1="0" x2="0" y2="78" style="opacity:0"/>
+          <circle class="cap" id="sparkCap" cx="600" cy="78" r="4"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- KPIs -->
+    <section class="kpis">
+      <div class="kpi">
+        <div class="top"><span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 16 2.5-6.5L20 11z"/></svg></span><span class="lbl">Índice del equipo</span></div>
+        <div class="v"><span id="kpiIdx">0</span><small> /100</small></div>
+        <div class="delta up">▲ 5 pts vs. ayer</div>
+      </div>
+      <div class="kpi">
+        <div class="top"><span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4v9M9 13l-3.5 1.5 9 6L18 4 5.5 14.5z"/></svg></span><span class="lbl">Clics hoy</span></div>
+        <div class="v" id="kpiClics">0</div>
+        <div class="delta">promedio <span id="kpiProm">0</span> por persona</div>
+      </div>
+      <div class="kpi">
+        <div class="top"><span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13.5a4 4 0 0 0 6 .5l2.5-2.5a4.2 4.2 0 0 0-6-6L11 7"/><path d="M14 10.5a4 4 0 0 0-6-.5L5.5 12.5a4.2 4.2 0 0 0 6 6L13 17"/></svg></span><span class="lbl">Enlaces visitados</span></div>
+        <div class="v" id="kpiLinks">0</div>
+        <div class="delta"><span id="kpiDom">0</span> destinos distintos</div>
+      </div>
+      <div class="kpi">
+        <div class="top"><span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M6 6l12 12"/></svg></span><span class="lbl">Intentos bloqueados</span></div>
+        <div class="v" id="kpiBlock">0</div>
+        <div class="delta" id="kpiBlockSub">—</div>
+      </div>
+    </section>
+
+    <!-- EQUIPO -->
+    <section class="card" id="roster">
+      <div class="card-hd">
+        <h2>Equipo · Célula Norte</h2>
+        <span class="lbl">clics de los últimos 60 min</span>
+      </div>
+      <div class="roster" id="rosterGrid"></div>
+    </section>
+
+    <!-- VENTANAS Y SITIOS -->
+    <section class="card" id="ventanas">
+      <div class="card-hd">
+        <h2>Ventanas y sitios</h2>
+        <div class="picker" id="picker"></div>
+      </div>
+      <div class="tl-wrap">
+        <div class="tl-top">
+          <span class="who" id="tlWho">—</span>
+          <span class="lbl" id="tlHint">pasa el cursor por un tramo</span>
+        </div>
+        <div class="tl" id="tl"></div>
+        <div class="tl-axis" id="tlAxis"></div>
+        <div class="tl-note"><i></i><span id="tlNote">intento de abrir un sitio bloqueado</span></div>
+      </div>
+      <div class="split">
+        <div>
+          <h3 id="destTitle">Destinos de hoy</h3>
+          <div class="dest" id="dest"></div>
+        </div>
+        <div>
+          <h3>Mezcla del equipo</h3>
+          <div class="mix" id="mix"></div>
+        </div>
+      </div>
+      <div class="catleg">
+        <span><i style="background:var(--cat-trabajo)"></i>Trabajo</span>
+        <span><i style="background:var(--cat-comm)"></i>Comunicación</span>
+        <span><i style="background:var(--cat-personal)"></i>Personal</span>
+        <span><i class="sin"></i>Sin ventana activa</span>
+      </div>
+    </section>
+
+    <!-- POLÍTICA DE SITIOS -->
+    <section class="card" id="politica">
+      <div class="card-hd">
+        <h2>Sitios bloqueados</h2>
+        <span class="lbl">se aplica en horario laboral</span>
+      </div>
+      <div class="block-list" id="blockList"></div>
+      <form class="add-site" id="addSite">
+        <input id="siteInput" autocomplete="off" placeholder="Agregar dominio, p. ej. tiktok.com" aria-label="Dominio a bloquear">
+        <button type="submit" class="btn-outline">Bloquear sitio</button>
+      </form>
+      <div class="log-hits">
+        <h3>Intentos de hoy</h3>
+        <div id="hitLog"></div>
+      </div>
+    </section>
+
+    <!-- MATRIZ -->
+    <section class="card" id="matriz">
+      <div class="card-hd">
+        <h2>Jornada de hoy</h2>
+        <span class="lbl">clics por hora · 09:00–19:00</span>
+      </div>
+      <div class="matrix-scroll"><div class="matrix" id="matrix"></div></div>
+      <div class="mlegend">
+        <span>sin clics</span>
+        <span class="ramp"><i style="background:var(--h0)"></i><i style="background:var(--h1)"></i><i style="background:var(--h2)"></i><i style="background:var(--h3)"></i><i style="background:var(--h4)"></i><i style="background:var(--h5)"></i><i style="background:var(--h6)"></i></span>
+        <span>actividad sostenida</span>
+      </div>
+    </section>
+
+    <!-- MÉTODO -->
+    <section class="method" id="metodo">
+      <div>
+        <h3>Qué se mide</h3>
+        <p>Clics y enlaces abiertos. El índice es <code>0.65·clics + 0.35·enlaces</code>, normalizado a 100 y
+        muestreado cada segundo. El recorrido del cursor quedó como dato secundario.</p>
+      </div>
+      <div>
+        <h3>Qué no se captura</h3>
+        <p>Ni el texto que se escribe, ni capturas de pantalla, ni el contenido de las páginas, ni cámara ni
+        micrófono. Del enlace se guarda el dominio, nunca la ruta completa.</p>
+      </div>
+      <div>
+        <h3>Cómo se leen los sitios</h3>
+        <p>Una página web <strong>no puede</strong> ver las otras pestañas ni bloquear nada por su cuenta. Leer
+        dominios y aplicar bloqueos exige una extensión de navegador o un agente instalado, con permiso explícito.
+        Aquí esa parte está simulada.</p>
+      </div>
+      <div>
+        <h3>Antes de encenderlo</h3>
+        <p>El monitoreo laboral requiere aviso previo y consentimiento por escrito, y sólo durante la jornada.
+        Un bloqueo que la persona no sabe que existe se vive como sabotaje; uno anunciado, como una regla.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <aside class="chat">
+    <div class="chat-hd">
+      <span class="glyph"><i></i></span>
+      <div><div class="t">Asistente Pulso</div><div class="s">lee el panel en tiempo real</div></div>
+      <span class="demo-chip">demo · guionado</span>
+    </div>
+    <div class="log" id="log" aria-live="polite"></div>
+    <div class="chips" id="chips"></div>
+    <form class="composer" id="composer">
+      <input id="input" autocomplete="off" placeholder="Pregunta sobre el equipo…" aria-label="Escribe tu pregunta">
+      <button type="submit" class="btn-coral" aria-label="Enviar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 6l6 6-6 6"/></svg>
+      </button>
+    </form>
+  </aside>
+
+</div>
+<div id="tip"></div>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
+const mulberry = a => () => {a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a);
+  t=t+Math.imul(t^t>>>7,61|t)^t; return((t^t>>>14)>>>0)/4294967296;};
+const hhmm = () => new Date().toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',hour12:false});
+const miles = n => n.toLocaleString('es-MX');
+
+/* ═══ DATOS SIMULADOS ══════════════════════════════════════════════ */
+const STATES = {
+  foco:  {label:'En foco',         cls:'s-foco'},
+  baja:  {label:'Actividad baja',  cls:'s-baja'},
+  junta: {label:'En junta',        cls:'s-junta'},
+  nula:  {label:'Sin señal',       cls:'s-nula'},
+  otra:  {label:'En otra ventana', cls:'s-otra'}
+};
+/* el índice ahora sale de clics y enlaces, no del recorrido del cursor */
+const TOPE_CLICS = 1800, TOPE_LINKS = 70;
+const indice = p => Math.round(
+  0.65 * Math.min(p.clics/TOPE_CLICS,1)*100 + 0.35 * Math.min(p.links/TOPE_LINKS,1)*100);
+
+const TEAM = [
+  {k:'mariana', n:'Mariana Córdova',   r:'Diseño de producto',  clics:1548, links:52, st:'foco',  last:'ahora',       seed:11},
+  {k:'diego',   n:'Francisco R',    r:'Desarrollo frontend', clics:1710, links:59, st:'foco',  last:'ahora',       seed:27},
+  {k:'renata',  n:'Valeria N',    r:'QA y pruebas',        clics:1044, links:33, st:'baja',  last:'hace 6 min',  seed:43},
+  {k:'tomas',   n:'Diego C', r:'Backend',             clics:1332, links:44, st:'junta', last:'hace 12 min', seed:58},
+  {k:'paulina', n:'Fernanda',    r:'Soporte a clientes',  clics: 738, links:22, st:'nula',  last:'hace 23 min', seed:71},
+  {k:'iker',    n:'Sol',   r:'Datos',               clics:1260, links:41, st:'foco',  last:'ahora',       seed:96}
+];
+TEAM.forEach(p => p.s = indice(p));
+
+const HOURS = ['09','10','11','12','13','14','15','16','17','18'];
+/* forma de la jornada; los clics por hora se reparten con estos pesos */
+const SHAPE = {
+  mariana:[62,78,94,81,66,18,79,92,84,58],
+  diego:  [48,74,96,97,82,26,91,95,93,71],
+  renata: [61,58,14, 0,44,15,57,72,63,39],
+  tomas:  [35,63,77,80,88,24,74,76,61,55],
+  paulina:[72,69,58,41,47,12,29,16, 0, 0],
+  iker:   [44,57,81,66,73,28,62,77,74,46]
+};
+const DAY = {};
+TEAM.forEach(p => {
+  const w = SHAPE[p.k], tot = w.reduce((a,b)=>a+b,0);
+  DAY[p.k] = w.map(x => Math.round(x/tot * p.clics));
+});
+const step = c => c===0?0 : c<35?1 : c<70?2 : c<105?3 : c<140?4 : c<175?5 : 6;
+const rampVar = c => 'var(--h'+step(c)+')';
+
+/* ── ventanas y sitios ── */
+const CATS = {
+  trabajo:      {label:'Trabajo',            color:'var(--cat-trabajo)'},
+  comunicacion: {label:'Comunicación',       color:'var(--cat-comm)'},
+  personal:     {label:'Personal',           color:'var(--cat-personal)'},
+  sin:          {label:'Sin ventana activa', color:''}
+};
+const APP_CAT = {
+  'Figma':'trabajo','VS Code':'trabajo','Jira':'trabajo','Metabase':'trabajo','Zendesk':'trabajo',
+  'Notion':'trabajo','github.com':'trabajo','stackoverflow.com':'trabajo',
+  'developer.mozilla.org':'trabajo','Google':'trabajo',
+  'Slack':'comunicacion','Gmail':'comunicacion','Google Meet':'comunicacion','WhatsApp Web':'comunicacion',
+  'YouTube':'personal','Mercado Libre':'personal'
+};
+/* jornada de 600 min desde las 09:00; '—' = sin ventana activa */
+const SEQ = {
+  mariana:[['Figma',85],['Slack',12],['Figma',68],['Google Meet',25],['Figma',55],['—',45],
+           ['Notion',28],['Figma',95],['Slack',10],['Figma',62],['Gmail',15],['Figma',100]],
+  diego:  [['VS Code',95],['github.com',25],['VS Code',80],['stackoverflow.com',18],['VS Code',62],['—',40],
+           ['Slack',12],['VS Code',105],['github.com',30],['developer.mozilla.org',22],['VS Code',111]],
+  renata: [['Jira',35],['—',55],['Jira',28],['Slack',10],['—',42],['Jira',32],['—',45],['Jira',60],
+           ['stackoverflow.com',20],['—',38],['Jira',75],['Gmail',12],['Jira',148]],
+  tomas:  [['VS Code',80],['Slack',15],['VS Code',70],['—',55],['Google Meet',60],['VS Code',90],
+           ['Metabase',25],['VS Code',85],['github.com',30],['Gmail',10],['VS Code',80]],
+  paulina:[['Zendesk',70],['Gmail',20],['Zendesk',55],['WhatsApp Web',15],['Zendesk',40],['—',50],
+           ['Zendesk',35],['YouTube',45],['—',30],['Zendesk',25],['Mercado Libre',35],['—',95],
+           ['YouTube',40],['—',45]],
+  iker:   [['Metabase',65],['VS Code',45],['Metabase',70],['Google',20],['—',45],['Metabase',85],
+           ['Slack',12],['VS Code',60],['Metabase',95],['stackoverflow.com',18],['Metabase',85]]
+};
+const JORNADA = {};
+TEAM.forEach(p => {
+  let t = 0;
+  JORNADA[p.k] = SEQ[p.k].map(([app,min]) => {
+    const seg = {app, cat: app === '—' ? 'sin' : APP_CAT[app], from:t, min};
+    t += min; return seg;
+  });
+});
+
+/* ── política de sitios ── */
+const BLOQUEADOS = [
+  {sitio:'Instagram', dominio:'instagram.com', activo:true},
+  {sitio:'Roblox',    dominio:'roblox.com',    activo:true}
+];
+const INTENTOS = [
+  {k:'renata',  dom:'instagram.com', min:291},
+  {k:'paulina', dom:'instagram.com', min:375},
+  {k:'paulina', dom:'instagram.com', min:402},
+  {k:'paulina', dom:'instagram.com', min:448},
+  {k:'paulina', dom:'roblox.com',    min:462},
+  {k:'paulina', dom:'instagram.com', min:505},
+  {k:'paulina', dom:'roblox.com',    min:528},
+  {k:'paulina', dom:'instagram.com', min:540}
+].sort((a,b) => a.min - b.min);
+
+const activo = dom => { const b = BLOQUEADOS.find(x => x.dominio === dom); return b && b.activo; };
+const intentosVivos = () => INTENTOS.filter(i => activo(i.dom));
+const nombreDe = k => TEAM.find(p => p.k === k).n;
+const sitioDe  = dom => { const b = BLOQUEADOS.find(x => x.dominio === dom); return b ? b.sitio : dom; };
+
+const dur  = m => m >= 60 ? Math.floor(m/60)+' h '+String(m%60).padStart(2,'0')+' m' : m+' m';
+const hora = m => String(9+Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const porCat = k => JORNADA[k].reduce((a,sg) => (a[sg.cat]=(a[sg.cat]||0)+sg.min, a), {});
+
+/* ═══ TOOLTIP COMPARTIDO ═══════════════════════════════════════════ */
+const tip = $('#tip');
+function showTip(el, html){
+  tip.innerHTML = html;
+  const r = el.getBoundingClientRect();
+  tip.style.left = (r.left + r.width/2) + 'px';
+  tip.style.top  = (r.top - 8) + 'px';
+  tip.style.opacity = '1';
+}
+const hideTip = () => { tip.style.opacity = '0'; };
+
+/* ═══ EQUIPO ═══════════════════════════════════════════════════════ */
+const TOPE_BARRA = 9;   /* clics por bloque de 2 min, escala común al equipo */
+const grid = $('#rosterGrid');
+TEAM.forEach(p => {
+  const rnd = mulberry(p.seed), media = p.clics/300;
+  const serie = Array.from({length:30}, (_,i) => {
+    const caida = p.st==='nula' && i>22 ? -media : p.st==='baja' && i%7===0 ? -media*0.7 : 0;
+    return Math.round(clamp(media + (rnd()-0.5)*media*1.5 + caida, 0, TOPE_BARRA));
+  });
+  const ini = p.n.split(' ').map(w => w[0]).slice(0,2).join('');
+  const card = document.createElement('article');
+  card.className = 'person';
+  card.innerHTML =
+    '<div class="p-hd">'+
+      '<div class="av" style="background:'+rampVar(Math.round(p.clics/10))+';color:'+
+        (step(Math.round(p.clics/10))<=2?'#0A2C4E':'#fff')+'">'+ini+'</div>'+
+      '<div class="p-id"><div class="n">'+p.n+'</div><div class="r">'+p.r+'</div></div>'+
+      '<div class="score">'+p.s+'</div>'+
+    '</div>'+
+    '<div class="p-stats"><span>Clics <b>'+miles(p.clics)+'</b></span>'+
+      '<span>Enlaces <b>'+p.links+'</b></span></div>'+
+    '<div class="bars">'+serie.map((v,i) =>
+      '<b data-v="'+v+'" data-i="'+i+'" style="height:'+Math.max(6,v/TOPE_BARRA*100)+'%'+
+      (i===29?';background:var(--accent)':'')+'"></b>').join('')+'</div>'+
+    '<div class="p-ft">'+
+      '<span class="pill '+STATES[p.st].cls+'"><i class="dot"></i>'+STATES[p.st].label+'</span>'+
+      '<span class="sep">última señal '+p.last+'</span>'+
+    '</div>';
+  card.querySelectorAll('.bars b').forEach(b => {
+    b.addEventListener('mouseenter', () => showTip(b,
+      'hace <b>'+((29-(+b.dataset.i))*2)+' min</b> · <b>'+b.dataset.v+'</b> clics'));
+    b.addEventListener('mouseleave', hideTip);
+  });
+  grid.appendChild(card);
+});
+
+/* ═══ MATRIZ DE LA JORNADA ═════════════════════════════════════════ */
+const mx = $('#matrix');
+mx.innerHTML =
+  '<div class="mrow head"><span class="who" aria-hidden="true"></span>'+HOURS.map(h=>'<span>'+h+'</span>').join('')+'</div>'+
+  TEAM.map(p => '<div class="mrow"><span class="who">'+p.n+'</span>'+
+    DAY[p.k].map((v,i) => '<div class="cell" data-who="'+p.n+'" data-h="'+HOURS[i]+'" data-v="'+v+
+      '" role="img" aria-label="'+p.n+', '+HOURS[i]+':00, '+(v===0?'sin clics':v+' clics')+
+      '" style="background:'+rampVar(v)+'"></div>').join('')+'</div>').join('');
+mx.querySelectorAll('.cell').forEach(c => {
+  c.addEventListener('mouseenter', () => showTip(c, c.dataset.who+' · '+c.dataset.h+':00 · '+
+    (c.dataset.v==='0' ? '<b>sin clics</b>' : '<b>'+c.dataset.v+'</b> clics')));
+  c.addEventListener('mouseleave', hideTip);
+});
+
+/* ═══ VENTANAS Y SITIOS ════════════════════════════════════════════ */
+const ORDEN = ['trabajo','comunicacion','personal','sin'];
+const corto = n => n.split(' ')[0];
+let sel = 'mariana';
+
+$('#tlAxis').innerHTML = ['09','10','11','12','13','14','15','16','17','18','19']
+  .map(h => '<span>'+h+':00</span>').join('');
+
+const picker = $('#picker');
+TEAM.forEach(p => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'chip'; b.textContent = corto(p.n); b.dataset.k = p.k;
+  b.setAttribute('aria-pressed','false');
+  b.addEventListener('click', () => pintar(p.k));
+  picker.appendChild(b);
+});
+
+$('#mix').innerHTML = TEAM.map(p => {
+  const t = porCat(p.k);
+  return '<div class="mrowx" data-k="'+p.k+'" role="button" tabindex="0" aria-pressed="false">'+
+    '<span class="who">'+p.n.split(' ')[0]+' '+p.n.split(' ')[1][0]+'.</span>'+
+    '<span class="stack">'+ORDEN.filter(c=>t[c]).map(c =>
+      '<i class="'+(c==='sin'?'sin':'')+'" data-c="'+c+'" data-m="'+t[c]+'" style="flex:'+t[c]+
+      (c==='sin'?'':';background:'+CATS[c].color)+'"></i>').join('')+'</span></div>';
+}).join('');
+$('#mix').querySelectorAll('.mrowx').forEach(row => {
+  row.addEventListener('click', () => pintar(row.dataset.k));
+  row.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); pintar(row.dataset.k); }
+  });
+  row.querySelectorAll('.stack i').forEach(seg => {
+    seg.addEventListener('mouseenter', () => showTip(seg,
+      CATS[seg.dataset.c].label+' · <b>'+dur(+seg.dataset.m)+'</b>'));
+    seg.addEventListener('mouseleave', hideTip);
+  });
+});
+
+const TL_HINT = 'pasa el cursor por un tramo';
+
+function pintar(k){
+  sel = k;
+  const p = TEAM.find(x => x.k === k), segs = JORNADA[k];
+
+  picker.querySelectorAll('button').forEach(b =>
+    b.setAttribute('aria-pressed', String(b.dataset.k === k)));
+  $('#mix').querySelectorAll('.mrowx').forEach(r =>
+    r.setAttribute('aria-pressed', String(r.dataset.k === k)));
+
+  $('#tlWho').textContent = p.n;
+  $('#destTitle').textContent = 'Destinos de ' + corto(p.n);
+
+  const tl = $('#tl');
+  const mios = intentosVivos().filter(i => i.k === k);
+  tl.innerHTML = segs.map((sg,i) => {
+    const nombre = sg.cat === 'sin' ? 'Sin ventana activa' : sg.app;
+    return '<i data-i="'+i+'" class="'+(sg.cat==='sin'?'sin':'')+'" role="img" aria-label="'+
+      nombre+', de '+hora(sg.from)+' a '+hora(sg.from+sg.min)+', '+dur(sg.min)+'" style="flex:'+sg.min+
+      (sg.cat==='sin'?'':';background:'+CATS[sg.cat].color)+'"></i>';
+  }).join('') + mios.map(i =>
+    '<span class="mark" data-dom="'+i.dom+'" data-min="'+i.min+'" role="img" aria-label="Intento bloqueado, '+
+    sitioDe(i.dom)+', '+hora(i.min)+'" style="left:'+(i.min/600*100).toFixed(2)+'%"></span>').join('');
+
+  tl.querySelectorAll('i[data-i]').forEach(el => {
+    const sg = segs[+el.dataset.i];
+    const nombre = sg.cat === 'sin' ? 'Sin ventana activa' : sg.app;
+    el.addEventListener('mouseenter', () => {
+      showTip(el, '<b>'+nombre+'</b> · '+hora(sg.from)+'–'+hora(sg.from+sg.min)+' · '+dur(sg.min));
+      $('#tlHint').textContent = nombre + ' · ' + dur(sg.min);
+    });
+    el.addEventListener('mouseleave', () => { hideTip(); $('#tlHint').textContent = TL_HINT; });
+  });
+  tl.querySelectorAll('.mark').forEach(el => {
+    el.addEventListener('mouseenter', () => showTip(el,
+      'Bloqueado · <b>'+sitioDe(el.dataset.dom)+'</b> · '+hora(+el.dataset.min)));
+    el.addEventListener('mouseleave', hideTip);
+  });
+  $('#tlNote').textContent = mios.length
+    ? mios.length + (mios.length === 1 ? ' intento' : ' intentos') + ' de abrir un sitio bloqueado'
+    : 'sin intentos de abrir sitios bloqueados';
+
+  const tot = {};
+  segs.forEach(sg => { if (sg.cat !== 'sin') tot[sg.app] = (tot[sg.app]||0) + sg.min; });
+  const filas = Object.entries(tot).sort((a,b) => b[1]-a[1]).slice(0,6);
+  const max = filas.length ? filas[0][1] : 1;
+  $('#dest').innerHTML = filas.map(([app,min]) =>
+    '<div class="drow">'+
+      '<span class="cdot" style="background:'+CATS[APP_CAT[app]].color+'"></span>'+
+      '<span class="nm">'+app+'</span>'+
+      '<span class="tm">'+dur(min)+'</span>'+
+      '<span class="track"><i style="width:'+(min/max*100).toFixed(1)+'%;background:'+
+        CATS[APP_CAT[app]].color+'"></i></span>'+
+    '</div>').join('');
+}
+
+/* ═══ POLÍTICA DE SITIOS ═══════════════════════════════════════════ */
+function contar(dom){ return INTENTOS.filter(i => i.dom === dom).length; }
+
+function pintarPolitica(){
+  $('#blockList').innerHTML = BLOQUEADOS.map((b,i) => {
+    const n = contar(b.dominio);
+    return '<div class="brow'+(b.activo?'':' off')+'">'+
+      '<span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M6 6l12 12"/></svg></span>'+
+      '<span class="who"><span class="n">'+b.sitio+'</span><span class="d">'+b.dominio+'</span></span>'+
+      '<span class="hits"><b>'+n+'</b>'+(n===1?'intento hoy':'intentos hoy')+'</span>'+
+      '<button class="sw" type="button" role="switch" data-i="'+i+'" aria-checked="'+b.activo+
+      '" aria-label="Bloqueo de '+b.sitio+'"></button>'+
+    '</div>';
+  }).join('');
+  $('#blockList').querySelectorAll('.sw').forEach(sw => {
+    sw.addEventListener('click', () => {
+      const b = BLOQUEADOS[+sw.dataset.i];
+      b.activo = !b.activo;
+      pintarPolitica(); pintar(sel); actualizarKPIs();
+    });
+  });
+
+  const vivos = intentosVivos();
+  $('#hitLog').innerHTML = vivos.length ? vivos.map(i =>
+    '<div class="hit"><span class="t">'+hora(i.min)+'</span>'+
+    '<span><b>'+nombreDe(i.k)+'</b> intentó abrir '+sitioDe(i.dom)+'</span>'+
+    '<span class="tagx">bloqueado</span></div>').join('')
+    : '<div class="hit" style="color:var(--ink-3)">Ningún bloqueo activo, así que no hay intentos que registrar.</div>';
+}
+
+$('#addSite').addEventListener('submit', e => {
+  e.preventDefault();
+  const v = $('#siteInput').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'');
+  if (!v || BLOQUEADOS.some(b => b.dominio === v)) { $('#siteInput').value = ''; return; }
+  const etiqueta = v.split('.')[0];
+  BLOQUEADOS.push({sitio: etiqueta.charAt(0).toUpperCase()+etiqueta.slice(1), dominio:v, activo:true});
+  $('#siteInput').value = '';
+  pintarPolitica(); actualizarKPIs();
+});
+
+/* ═══ KPIs, COHERENTES CON LOS DATOS ═══════════════════════════════ */
+const teamIdx   = Math.round(TEAM.reduce((a,p) => a+p.s, 0) / TEAM.length);
+const totClics  = TEAM.reduce((a,p) => a+p.clics, 0);
+const totLinks  = TEAM.reduce((a,p) => a+p.links, 0);
+const dominios  = new Set(Object.values(SEQ).flat().map(x => x[0]).filter(x => x !== '—')).size;
+function actualizarKPIs(){
+  const n = intentosVivos().length;
+  $('#kpiBlock').textContent = n;
+  $('#tagBlock').textContent = n;
+  const porSitio = {};
+  intentosVivos().forEach(i => porSitio[sitioDe(i.dom)] = (porSitio[sitioDe(i.dom)]||0)+1);
+  const detalle = Object.entries(porSitio).map(([s,c]) => s+' '+c).join(' · ');
+  $('#kpiBlockSub').textContent = detalle || 'sin bloqueos activos';
+}
+$('#kpiIdx').textContent   = teamIdx;
+$('#kpiClics').textContent = miles(totClics);
+$('#kpiLinks').textContent = totLinks;
+$('#kpiProm').textContent  = miles(Math.round(totClics/TEAM.length));
+$('#kpiDom').textContent   = dominios;
+
+pintar('mariana');
+pintarPolitica();
+actualizarKPIs();
+
+/* ═══ RELOJ ════════════════════════════════════════════════════════ */
+const clock = $('#clock');
+const tick = () => { clock.textContent = new Date().toLocaleTimeString('es-MX',{hour12:false}); };
+setInterval(tick, 1000); tick();
+
+/* ═══ SENSOR: clics y enlaces de quien está viendo la página ═══════ */
+const S = {clics:0, links:0, dist:0, on:0, off:0, last:performance.now(), score:0};
+let lx = null, ly = null;
+const buf = new Array(60).fill(0);
+const c10 = new Array(10).fill(0);   /* clics de los últimos 10 s */
+const c60 = new Array(60).fill(0);   /* clics del último minuto */
+const l60 = new Array(60).fill(0);   /* enlaces del último minuto */
+let tClics = 0, tLinks = 0;
+const suma = a => a.reduce((x,y) => x+y, 0);
+
+addEventListener('pointermove', e => {
+  if (lx !== null){
+    const d = Math.hypot(e.clientX-lx, e.clientY-ly);
+    if (d < 500) S.dist += d;
+  }
+  lx = e.clientX; ly = e.clientY; S.last = performance.now();
+}, {passive:true});
+
+addEventListener('pointerdown', () => { tClics++; S.clics++; S.last = performance.now(); }, {passive:true});
+addEventListener('keydown',     () => { S.last = performance.now(); }, {passive:true});
+
+/* un enlace abierto cuenta de verdad: los del menú lateral son enlaces reales */
+document.addEventListener('click', e => {
+  const a = e.target.closest && e.target.closest('a[href]');
+  if (a){ tLinks++; S.links++; S.last = performance.now(); }
+}, true);
+
+/* Lo único que una página sabe de "otras ventanas": que perdió el foco.
+   No qué aplicación ni qué URL — eso exige extensión o agente instalado. */
+let switches = 0, awaySec = 0, away = false;
+const salir  = () => { if (!away){ away = true; switches++; $('#rSwitch').textContent = switches; } };
+const volver = () => { away = false; S.last = performance.now(); };
+addEventListener('blur', salir);
+addEventListener('focus', volver);
+document.addEventListener('visibilitychange', () => document.hidden ? salir() : volver());
+
+const ring = $('#ring'), CIRC = 2*Math.PI*56;
+const sLine = $('#sparkLine'), sArea = $('#sparkArea'), sCap = $('#sparkCap'), sCross = $('#sparkCross');
+const xAt = i => i * (600/59);
+const yAt = v => 72 - (v/100)*66;
+
+function drawSpark(){
+  let d = '';
+  for (let i=0;i<60;i++) d += (i?'L':'M') + xAt(i).toFixed(1) + ',' + yAt(buf[i]).toFixed(1) + ' ';
+  sLine.setAttribute('d', d.trim());
+  sArea.setAttribute('d', 'M0,78 L' + d.trim().slice(1) + ' L600,78 Z');
+  sCap.setAttribute('cy', yAt(buf[59]).toFixed(1));
+}
+
+setInterval(() => {
+  c10.shift(); c10.push(tClics);
+  c60.shift(); c60.push(tClics);
+  l60.shift(); l60.push(tLinks);
+
+  const C = Math.min(suma(c10)/5, 1);      /* 5 clics en 10 s llena la parte de clics */
+  const L = Math.min(suma(l60)/4, 1);      /* 4 enlaces en 1 min llena la de enlaces  */
+  const raw = 100 * (0.65*C + 0.35*L);
+  S.score = S.score*0.5 + raw*0.5;
+  const v = Math.round(clamp(S.score, 0, 100));
+
+  buf.shift(); buf.push(v); drawSpark();
+  ring.setAttribute('stroke-dashoffset', (CIRC * (1 - v/100)).toFixed(1));
+  $('#scoreVal').textContent = v;
+
+  const idle = (performance.now() - S.last)/1000;
+  const st = away ? 'otra' : idle >= 20 ? 'nula' : idle >= 6 ? 'baja' : 'foco';
+  $('#statePill').className = 'state ' + STATES[st].cls;
+  $('#stateTxt').textContent = STATES[st].label + (st !== 'foco' ? ' · ' + Math.floor(idle) + ' s' : '');
+  if (st === 'foco') S.on++; else S.off++;
+  if (away) awaySec++;
+
+  $('#rClicks').textContent = S.clics;
+  $('#rLinks').textContent  = S.links;
+  $('#rCpm').textContent    = suma(c60);
+  $('#rAway').innerHTML     = awaySec + '<small>s</small>';
+  $('#rOn').innerHTML       = S.on  + '<small>s</small>';
+  $('#rOff').innerHTML      = S.off + '<small>s</small>';
+  $('#rDist').innerHTML     = (S.dist*0.000264583).toFixed(1) + '<small>m</small>';
+  $('#sparkHint').textContent = 'promedio ' + Math.round(suma(buf)/60);
+
+  tClics = tLinks = 0;
+}, 1000);
+
+const svgSpark = $('#spark');
+svgSpark.addEventListener('mousemove', e => {
+  const r = svgSpark.getBoundingClientRect();
+  const i = clamp(Math.round(((e.clientX-r.left)/r.width)*59), 0, 59);
+  sCross.style.opacity = '1';
+  sCross.setAttribute('x1', xAt(i)); sCross.setAttribute('x2', xAt(i));
+  $('#sparkHint').textContent = 'hace ' + (59-i) + ' s · índice ' + buf[i];
+});
+svgSpark.addEventListener('mouseleave', () => { sCross.style.opacity = '0'; });
+drawSpark();
+
+/* ═══ ASISTENTE — respuestas guionadas, sin llamadas a ningún modelo ═══ */
+const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const P = k => TEAM.find(x => x.k === k);
+const ficha = k => { const p = P(k);
+  return '**'+p.n+'** · '+p.r+'\n'+
+    'Índice **'+p.s+'/100** · '+miles(p.clics)+' clics · '+p.links+' enlaces abiertos.\n'; };
+const bloqueosDe = k => INTENTOS.filter(i => i.k === k).length;
+const MEZCLA = (() => {
+  const t = {trabajo:0, comunicacion:0, personal:0, sin:0};
+  TEAM.forEach(p => JORNADA[p.k].forEach(sg => t[sg.cat] += sg.min));
+  const T = suma(Object.values(t));
+  const pct = {}; for (const c in t) pct[c] = Math.round(t[c]/T*100);
+  return {min:t, pct};
+})();
+
+const GUION = [
+  [/\bmariana|cordova\b/, () => ficha('mariana')+
+    'Patrón estable: arranca fuerte de 09:00 a 12:00 y sostiene la tarde. Sin alertas en 14 días.\n'+
+    'Ventanas: Figma 7 h 45 m, Notion 28 min, 47 min entre Slack y Meet. Cero sitios personales.'],
+
+  [/\bfrancisco\b/, () => ficha('diego')+
+    'El más alto del equipo en clics y en enlaces. Pero lleva cuatro días arriba de 90 sin pausas mayores '+
+    'a 10 minutos — eso también es una señal, y no una buena.\n'+
+    'Ventanas: VS Code 7 h 33 m, github.com 55 min, 40 min entre Stack Overflow y MDN.'],
+
+  [/\bvaleria\b/, () => ficha('renata')+
+    'Sus huecos de 11:00 a 13:00 coinciden con las corridas de pruebas manuales: ahí casi no hace clic.\n'+
+    'Ventanas: Jira 6 h 18 m y **3 h exactas** de *sin ventana activa* en cuatro huecos. Ese es justo el '+
+    'tiempo de las pruebas: el sistema no puede distinguirlo de estar ausente. Contrástalo con los casos que cerró.'],
+
+  [/\bdiego\b/, () => ficha('tomas')+
+    'Ahora en junta de 13:00 a 14:00, tomada del calendario: por eso no marca clics.\n'+
+    'Ventanas: VS Code 6 h 45 m y 1 h de Google Meet. La junta entra como comunicación, no como hueco.'],
+
+  [/\bfernanda\b/, () => ficha('paulina')+
+    'El más bajo en las dos métricas, con caída sostenida después de las 15:00 por tercer día.\n'+
+    'Ventanas: Zendesk 3 h 45 m contra 2 h en sitios personales, y **'+bloqueosDe('paulina')+
+    ' intentos** de abrir sitios bloqueados, todos entre las 15:15 y las 18:00.\n'+
+    'Es el único caso que yo llevaría a una conversación, no al panel. El sensor te dice **cuándo preguntar**, '+
+    'no qué está pasando.'],
+
+  [/\bsol\b/, () => ficha('iker')+
+    'Mucho teclado y pocos clics de navegación, típico de su rol: si midieras sólo recorrido de mouse, '+
+    'saldría en rojo sin razón.\n'+
+    'Ventanas: Metabase 6 h 40 m y VS Code 1 h 45 m. Nada personal en todo el día.'],
+
+  [/^\s*(hola|buenas|hey|que tal|saludos|buenos dias|buenas tardes)\b/, () =>
+    'Hola. Estoy leyendo la telemetría de **Célula Norte** en vivo.\n'+
+    'El índice del equipo va en **'+teamIdx+'/100**, con '+miles(totClics)+' clics y '+totLinks+' enlaces hoy, '+
+    'y **'+intentosVivos().length+' intentos** de abrir sitios bloqueados.\n'+
+    '¿Quieres el resumen del día, el detalle de alguien, o revisamos los bloqueos?'],
+
+  [/(bloque|prohib|roblox|instagram|restring|veta|censur|lista negra|politica de sitio)/, () => {
+    const porSitio = {};
+    intentosVivos().forEach(i => porSitio[sitioDe(i.dom)] = (porSitio[sitioDe(i.dom)]||0)+1);
+    const lineas = Object.entries(porSitio).map(([s,c]) =>
+      '— **'+s+'** · '+(BLOQUEADOS.find(b => b.sitio === s)||{}).dominio+' · '+c+
+      (c === 1 ? ' intento' : ' intentos')).join('\n');
+    const total = intentosVivos().length;
+    return (total ? '**Sitios bloqueados hoy**\n'+lineas+'\n' : 'Ahora mismo no hay ningún bloqueo activo.\n')+
+      'De los '+total+' intentos, **'+bloqueosDe('paulina')+' son de Paulina** y '+bloqueosDe('renata')+
+      ' de Renata a las 13:51. Todos después de la comida.\n'+
+      'Puedes apagar cualquiera con su interruptor o agregar otro dominio en *Sitios bloqueados*.\n'+
+      'Dos advertencias antes de presumir la función: el bloqueo lo aplica la **extensión o el agente instalado**, '+
+      'no este panel; y sólo cubre el equipo de la empresa, no el teléfono personal — que es justo a donde se '+
+      'mueve la mayoría de estos intentos en cuanto bloqueas el navegador.'; }],
+
+  [/(sin senal|inactiv|desconect|ausente|quien no|no esta|nadie|fuera de)/, () =>
+    'Dos personas fuera de rango ahora mismo:\n'+
+    '— **Fernanda** · sin clics desde hace 23 min. Su última hora con actividad fue la de 16:00.\n'+
+    '— **Valeria N** · señal intermitente, índice '+P('renata').s+'. Lleva 3 tramos bajo el umbral hoy.\n'+
+    '**Diego C** aparece sin clics, pero tiene junta agendada de 13:00 a 14:00 — no cuenta como alerta.\n'+
+    'Una precisión importante: *sin señal* significa que no hubo clics, no que la persona no esté trabajando. '+
+    'Una llamada, una junta presencial o leer en papel se ven idénticas a estar ausente.'],
+
+  [/(resumen|como va|estado general|status|del dia|de hoy|panorama)/, () =>
+    '**Resumen · hoy, corte '+hhmm()+'**\n'+
+    '— Índice del equipo **'+teamIdx+'/100**, 5 puntos arriba de ayer.\n'+
+    '— **'+miles(totClics)+' clics** y **'+totLinks+' enlaces** entre las seis personas.\n'+
+    '— **'+intentosVivos().length+' intentos** de abrir sitios bloqueados, '+bloqueosDe('paulina')+
+    ' de la misma persona.\n'+
+    '— Pico de 10:00 a 12:00. La caída de 14:00 es la comida y es esperada.\n'+
+    'Lo que sí llama la atención: Paulina lleva tres días bajando después de las 15:00, y sus intentos '+
+    'bloqueados se concentran justo en esa franja.'],
+
+  [/(extension|agente|instalar|como se lee|como lee|se puede leer|se pueden leer|tecnicamente|es posible)/, () =>
+    'Aquí conviene ser preciso, porque es lo que más se malentiende de estas herramientas.\n'+
+    'Una página web **no puede** leer las otras pestañas del navegador ni bloquear nada por su cuenta. '+
+    'Por sí sola sólo detecta que **perdió el foco** — y eso sí es real en esta demo: cambia de pestaña y mira '+
+    'subir *Cambios de ventana* en el sensor de arriba. Tus clics y los enlaces que abres también son reales.\n'+
+    'Para leer dominios y aplicar bloqueos hacen falta cosas que se instalan y se ven:\n'+
+    '— una **extensión de navegador** con permiso `tabs` y `webRequest`, que cubre sólo ese navegador\n'+
+    '— un **agente en el sistema operativo**, que ve todas las aplicaciones\n'+
+    'Por eso ninguno de estos productos funciona con sólo abrir una página. La línea de tiempo, los destinos '+
+    'y los bloqueos de la demo son datos inventados.'],
+
+  [/(sitio|pagina|web|url|link|enlace|ventana|aplicacion|app|navega|visit|destino|distra|redes|youtube)/, () =>
+    '**Destinos del equipo hoy** · 10 h de jornada por persona\n'+
+    '— **Trabajo** '+MEZCLA.pct.trabajo+'% · Figma, VS Code, Jira, Metabase, Zendesk\n'+
+    '— **Comunicación** '+MEZCLA.pct.comunicacion+'% · Slack, Google Meet, Gmail\n'+
+    '— **Personal** '+MEZCLA.pct.personal+'% · YouTube y Mercado Libre\n'+
+    '— **Sin ventana activa** '+MEZCLA.pct.sin+'%\n'+
+    'Ese '+MEZCLA.pct.personal+'% son '+dur(MEZCLA.min.personal)+', y **completas de una sola persona**: '+
+    'Paulina. En las otras cinco el uso personal es cero, así que el promedio del equipo no dice nada útil.\n'+
+    'Instagram ya no aparece con tiempo porque está bloqueado: sus '+
+    intentosVivos().filter(i => i.dom === 'instagram.com').length+' intentos salen como marcas rojas en la '+
+    'línea de tiempo, no como minutos.'],
+
+  [/(alerta|umbral|aviso)/, () =>
+    '**2 alertas abiertas**, las dos por la misma regla (20 min sin clics en horario laboral):\n'+
+    '— `A-118` Fernanda · 23 min · abierta '+hhmm()+'\n'+
+    '— `A-117` Valeria N · 21 min · se cerró sola al volver la señal\n'+
+    'Aparte van los '+intentosVivos().length+' intentos de sitio bloqueado, que no generan alerta sino registro.\n'+
+    'Puedes subir el umbral a 30 min en *Configuración → Umbrales*. Con 20 min este equipo genera unas '+
+    '9 alertas al día; con 30 bajan a 3.'],
+
+  [/(como funciona|sensor|como mide|que mide|metrica|indice|formula|calcul)/, () =>
+    'El índice lo mandan **los clics y los enlaces abiertos** — el recorrido del cursor bajó a dato secundario, '+
+    'porque medía movimiento y no intención.\n'+
+    'Cada segundo se calcula:\n'+
+    '— **clics** de los últimos 10 s — 65% del índice\n'+
+    '— **enlaces abiertos** del último minuto — 35%\n'+
+    'El resultado se normaliza a 0–100 y se suaviza con la muestra anterior para que la aguja no brinque.\n'+
+    'Sin eventos por 6 s marca *actividad baja*; por 20 s, *sin señal*. Compruébalo: haz clic aquí o abre un '+
+    'enlace del menú de navegación y mira moverse el sensor de arriba.'],
+
+  [/(privacidad|legal|consentimiento|etic|espia|vigilan|permiso|ley|datos personales)/, () =>
+    'Lo que el sensor **sí** guarda: marca de tiempo, número de clics, dominio de los enlaces abiertos y '+
+    'cambios de ventana.\n'+
+    'Lo que **no** toca: el texto escrito, capturas de pantalla, la ruta completa de las URLs, archivos, '+
+    'cámara ni micrófono.\n'+
+    'Para operarlo en México hacen falta tres cosas: aviso de privacidad que declare la finalidad, '+
+    'consentimiento por escrito en contrato o política interna, y medición sólo dentro de la jornada. '+
+    'La lista de sitios bloqueados debe estar publicada: bloquear en silencio es lo que convierte una regla en trampa.\n'+
+    'Y una recomendación de producto: dale a cada persona su propio panel. Un tablero que sólo ve la jefatura '+
+    'se percibe como vigilancia; uno que la persona medida también ve se percibe como una métrica.'],
+
+  [/(reporte|export|pdf|csv|descarg|informe)/, () =>
+    'Puedo armar el reporte semanal en tres cortes: por persona, por franja horaria, o sólo excepciones '+
+    '—que suele ser el único que alguien lee.\n'+
+    'En esta demo la exportación está apagada: es una maqueta sin servidor. '+
+    'En la versión real saldría en CSV y PDF, con corte los viernes a las 19:00.'],
+
+  [/(junta|reunion|calendario|agenda)/, () =>
+    'Sí: cruzo el calendario antes de levantar una alerta. Si hay evento agendado, la ausencia de clics se marca '+
+    'como *En junta* y no cuenta contra el índice.\n'+
+    'Hoy aplicó una vez, con Tomás de 13:00 a 14:00. Sin ese cruce tendrías una tercera alerta falsa.'],
+
+  [/(ayer|semana|compar|tendencia|historic|evoluc)/, () =>
+    '**Últimos 5 días**, índice del equipo: 59 · 62 · 64 · 62 · '+teamIdx+'.\n'+
+    'La tendencia sube, pero está cargada por dos personas: Diego y Mariana aportan el 38% de los clics totales.\n'+
+    'Si los sacas del promedio, el equipo va plano en 57. Ese es el número que yo miraría.'],
+
+  [/(mejor hora|horario|productiv|cuando|pico|franja)/, () =>
+    'El pico del equipo es de **10:00 a 12:00**: cuatro de seis personas dan ahí su hora con más clics.\n'+
+    'La franja de 14:00 a 15:00 cae a menos de la mitad todos los días — es la comida, no un problema.\n'+
+    'Si vas a mover las juntas recurrentes, el hueco más barato es de 15:00 a 16:00.'],
+
+  [/\b(gracias|listo|perfecto|ok|vale|entendido)\b/, () =>
+    'Va. Dejo el sensor corriendo; si algo cruza el umbral o alguien toca un sitio bloqueado, aparece aquí solo.']
+];
+
+const FALLBACK =
+  'Eso todavía no lo tengo guionado: esta demo responde con un set fijo de respuestas y no llama a ningún modelo.\n'+
+  'Prueba con *resumen del día*, *¿quién intentó entrar a Instagram?*, *¿cómo se calcula el índice?*, '+
+  '*¿qué sitios visitan?* o *privacidad*.';
+
+function responder(q){
+  const n = norm(q);
+  for (const [re, fn] of GUION) if (re.test(n)) return fn();
+  return FALLBACK;
+}
+
+/* ── render de mensajes ─────────────────────────────── */
+function fmt(t, caret){
+  let s = t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  if ((s.match(/\*\*/g)||[]).length % 2) s = s.replace(/\*\*(?![\s\S]*\*\*)/, '');
+  if ((s.match(/`/g)||[]).length % 2)    s = s.replace(/`(?![\s\S]*`)/, '');
+  s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+       .replace(/`(.+?)`/g, '<span class="k">$1</span>')
+       .replace(/(^|[^*])\*([^*\n]+?)\*/g, '$1<em>$2</em>');
+  let out = '', ul = false;
+  for (const ln of s.split('\n')){
+    if (ln.startsWith('— ')){ if(!ul){ out+='<ul>'; ul=true; } out += '<li>'+ln.slice(2)+'</li>'; }
+    else { if(ul){ out+='</ul>'; ul=false; } if(ln.trim()) out += '<p style="margin:0">'+ln+'</p>'; }
+  }
+  if (ul) out += '</ul>';
+  if (caret) out = out.replace(/(<\/(?:p|li)>)(?![\s\S]*<\/(?:p|li)>)/, '<span class="caret"></span>$1');
+  return '<div style="display:flex;flex-direction:column;gap:8px">' + out + '</div>';
+}
+
+const log = $('#log');
+const toBottom = () => { log.scrollTop = log.scrollHeight; };
+
+function addMsg(who, html){
+  const el = document.createElement('div');
+  el.className = 'msg ' + who;
+  el.innerHTML = '<div class="ic">'+(who==='bot'?'P':'TÚ')+'</div><div class="bubble">'+html+'</div>';
+  log.appendChild(el); toBottom();
+  return el;
+}
+
+let flush = null;   /* termina de golpe la respuesta que se está escribiendo */
+
+function botSay(text){
+  const bub = addMsg('bot', '<div class="dots"><i></i><i></i><i></i></div>').querySelector('.bubble');
+  let wait = null, tick = null;
+  const done = () => {
+    clearTimeout(wait); clearInterval(tick);
+    bub.innerHTML = fmt(text, false);
+    if (flush === done) flush = null;
+    toBottom();
+  };
+  flush = done;
+  wait = setTimeout(() => {
+    if (reduced) return done();
+    const chunk = Math.max(1, Math.ceil(text.length/95));
+    let i = 0;
+    tick = setInterval(() => {
+      i = Math.min(text.length, i + chunk);
+      bub.innerHTML = fmt(text.slice(0,i), i < text.length);
+      toBottom();
+      if (i >= text.length) done();
+    }, 16);
+  }, reduced ? 0 : 420);
+}
+
+function preguntar(q){
+  if (!q.trim()) return;
+  if (flush) flush();
+  addMsg('user', fmt(q, false));
+  botSay(responder(q));
+}
+
+/* ── sugerencias y composer ─────────────────────────── */
+const SUGS = ['Resumen del día', '¿Quién intentó entrar a Instagram?', '¿Qué sitios visitan?',
+              '¿Cómo se calcula el índice?', '¿Se puede leer la URL?', '¿Qué pasa con Paulina?', 'Privacidad'];
+const chips = $('#chips');
+SUGS.forEach(t => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'chip'; b.textContent = t;
+  b.addEventListener('click', () => preguntar(t));
+  chips.appendChild(b);
+});
+
+const input = $('#input');
+$('#composer').addEventListener('submit', e => {
+  e.preventDefault();
+  const v = input.value;
+  input.value = '';
+  preguntar(v);
+});
+
+/* ── saludo inicial ─────────────────────────────────── */
+setTimeout(() => botSay(
+  'Panel conectado. El índice ahora lo mandan **los clics y los enlaces abiertos**.\n'+
+  'Equipo **'+teamIdx+'/100** · '+miles(totClics)+' clics · '+totLinks+' enlaces · **'+
+  intentosVivos().length+' intentos** de abrir sitios bloqueados.\n'+
+  'Pregúntame por alguien del equipo, por los bloqueos de hoy o por cómo se calcula el índice.'
+), 700);
+
+})();
+</script>h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance}
 :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:5px}
 ::selection{background:var(--accent-soft); color:var(--ink)}
 
