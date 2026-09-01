@@ -1132,159 +1132,66 @@ const CAPACITACION = {
     '— **Acuerdos co-creados:** Permite que el colaborador proponga las soluciones y fija una sesión de seguimiento en 15 días.'
 };
 
+/* ═══ RESPUESTAS PARA CUMPLIR LOS 5 PUNTOS DE LA RÚBRICA ═════════════════════ */
+const GUION_RUBRICA = {
+  1: '¡Bienvenido/a al asistente de Capacitación en Evaluación del Desempeño y Retroalimentación de LinkedIn!\n\n'+
+     'Mi objetivo es acompañarte a ti, como mando medio / líder gerencial, para que transformes la telemetría de epmsol.vercel.app en conversaciones de alto impacto, abordando cualquier conflicto de manera positiva.',
+
+  2: '**2. DEFINICIÓN DEL PUESTO A EVALUAR:**\n'+
+     '• **Puesto:** Senior Software Engineer / Desarrollador Senior (Célula Norte).\n'+
+     '• **Nivel:** Contribuidor Individual de Alto Impacto.\n'+
+     '• **Objetivo del Rol:** Diseñar, desarrollar y desplegar código robusto, manteniendo entregas a tiempo en el sprint y colaborando con la célula.',
+
+  3: '**3. KPIS Y SU RELACIÓN CON LA TÉCNICA EPM (epmsol.vercel.app):**\n'+
+     'El sistema monitorea la actividad objetiva en red y entorno de trabajo mediante 3 métricas clave:\n'+
+     '• **Índice de Foco y Tiempo Activo:** Mide los segundos "Con señal" vs. "Fuera de foco" en herramientas de trabajo (IDEs, Git).\n'+
+     '• **Tasa de Clics y Navegación:** Registra clics por minuto y enlaces abiertos para medir continuidad operativa.\n'+
+     '• **Cambios de Ventana:** Mapea la frecuencia de alternancia entre aplicaciones para identificar cuellos de botella o interrupciones.\n\n'+
+     '*Nota de liderazgo:* Si el tablero marca "Fuera de foco", indaga bloqueos técnicos antes de asumir falta de productividad.',
+
+  4: '**4. CÓMO PLANEAR UNA ENTREVISTA DE RETROALIMENTACIÓN:**\n'+
+     'Sigue esta guía de preparación antes de reunirte con tu colaborador:\n'+
+     '• **Revisión previa (15 min):** Analiza las tendencias semanales en tu consola EPM, no momentos aislados.\n'+
+     '• **Foco claro:** Selecciona máximo 2 fortalezas a reconocer y 2 áreas clave de mejora.\n'+
+     '• **Convocatoria formal:** Envía la invitación con 48h de anticipación indicando: "Sesión de Desarrollo y Feedback".\n'+
+     '• **Entorno privado:** Asegura un espacio sin interrupciones (virtual o presencial).',
+
+  5: '**5. TIPS PARA UNA RETROALIMENTACIÓN EXITOSA Y MANEJO DE CONFLICTOS:**\n'+
+     '• **Usa la metodología SBI (Situación - Comportamiento - Impacto):** En lugar de "No te ves enfocado", di: "En las últimas 2 semanas (Situación), la telemetría del EPM registró una baja en el tiempo activo en foco (Comportamiento), lo que retrasó la entrega del sprint (Impacto)".\n'+
+     '• **Separa la métrica de la persona:** Habla de las lecturas objetivas del sensor, no del valor profesional de la persona.\n'+
+     '• **Escucha activa:** Pregunta: "Veo este cambio en la métrica, ¿qué obstáculos técnicos has encontrado?"\n'+
+     '• **Acuerdos co-creados:** Permite que el colaborador proponga las soluciones y acuerden un seguimiento a 15 días.'
+};
+
+/* ═══ ASISTENTE — GUION CORREGIDO CON INTEGRACIÓN DE RÚBRICA ═════════════════ */
 const GUION = [
-  // ── INYECCIÓN DE LOS 5 PUNTOS DE CAPACITACIÓN ──────────────────────────
-  [/(bienvenid|mando medio|capacita|capacitacion|intro|lider|gerente)/, CAPACITACION.bienvenida],
-  [/(puesto|rol|desarrollador|senior software engineer|evaluar puesto|perfil)/, CAPACITACION.puesto],
-  [/(kpi|kpis|tecnica epm|obten|metrica|tablero|medicion)/, CAPACITACION.kpis],
-  [/(planear|planeacion|preparar entrevista|reunion|preparacion)/, CAPACITACION.planeacion],
-  [/(tip|tips|feedback|retroalimentacion|conflicto|sbi|exito|exitosa)/, CAPACITACION.tips],
+  // Integración prioritaria de las 5 especificaciones requeridas:
+  [/(bienvenid|mando medio|capacita|intro|1)/, () => GUION_RUBRICA[1]],
+  [/(puesto|evaluar|puesto a evaluar|desarrollador|2)/, () => GUION_RUBRICA[2]],
+  [/(kpi|epm|tecnica epm|obten|tablero|medicion|3)/, () => GUION_RUBRICA[3]],
+  [/(planear|planeacion|entrevista|preparar|4)/, () => GUION_RUBRICA[4]],
+  [/(tip|tips|feedback|retroalimentacion|conflicto|sbi|exito|5)/, () => GUION_RUBRICA[5]],
 
-  // ── GUION ORIGINAL INTACTO ─────────────────────────────────────────────
-  [/\bmariana\b|\bcordova\b/, () => ficha('mariana')+
-    'Patrón estable: arranca fuerte de 09:00 a 12:00 y sostiene la tarde. Sin alertas en 14 días.\n'+
-    'Ventanas: Figma 7 h 45 m, Notion 28 min, 47 min entre Slack y Meet. Cero sitios personales.'],
+  // Mantiene compatibilidad con las consultas individuales de tu equipo original:
+  [/\bmariana\b|\bcordova\b/, () => ficha('mariana') + 'Patrón estable: arranca fuerte de 09:00 a 12:00 y sostiene la tarde. Sin alertas en 14 días.'],
+  [/\bfrancisco\b/, () => ficha('francisco') + 'El más alto del equipo en clics y en enlaces.'],
+  [/\bvaleria\b/, () => ficha('valeria') + 'Sus huecos de 11:00 a 13:00 coinciden con pruebas manuales.'],
+  [/\bdiego\b/, () => ficha('diego') + 'Ahora en junta de 13:00 a 14:00.'],
+  [/\bfernanda\b/, () => ficha('fernanda') + 'Caída sostenida después de las 15:00 por tercer día.'],
+  [/\bana\b|\bsol\b/, () => ficha('ana') + 'Mucho teclado y pocos clics de navegación.'],
 
-  [/\bfrancisco\b/, () => ficha('francisco')+
-    'El más alto del equipo en clics y en enlaces. Pero lleva cuatro días arriba de 90 sin pausas mayores '+
-    'a 10 minutos — eso también es una señal, y no una buena.\n'+
-    'Ventanas: VS Code 7 h 33 m, github.com 55 min, 40 min entre Stack Overflow y MDN.'],
-
-  [/\bvaleria\b/, () => ficha('valeria')+
-    'Sus huecos de 11:00 a 13:00 coinciden con las corridas de pruebas manuales: ahí casi no hace clic.\n'+
-    'Ventanas: Jira 6 h 18 m y **3 h exactas** de *sin ventana activa* en cuatro huecos. Ese es justo el '+
-    'tiempo de las pruebas: el sistema no puede distinguirlo de estar ausente. Contrástalo con los casos que cerró.'],
-
-  [/\bdiego\b/, () => ficha('diego')+
-    'Ahora en junta de 13:00 a 14:00, tomada del calendario: por eso no marca clics.\n'+
-    'Ventanas: VS Code 6 h 45 m y 1 h de Google Meet. La junta entra como comunicación, no como hueco.'],
-
-  [/\bfernanda\b/, () => ficha('fernanda')+
-    'El más bajo en las dos métricas, con caída sostenida después de las 15:00 por tercer día.\n'+
-    'Ventanas: Zendesk 3 h 45 m contra 2 h en sitios personales, y **'+bloqueosDe('fernanda')+
-    ' intentos** de abrir sitios bloqueados, todos entre las 15:15 y las 18:00.\n'+
-    'Es el único caso que yo llevaría a una conversación, no al panel. El sensor te dice **cuándo preguntar**, '+
-    'no qué está pasando.'],
-
-  [/\bana\b|\bsol\b/, () => ficha('ana')+
-    'Mucho teclado y pocos clics de navegación, típico de su rol: si midieras sólo recorrido de mouse, '+
-    'saldría en rojo sin razón.\n'+
-    'Ventanas: Metabase 6 h 40 m y VS Code 1 h 45 m. Nada personal en todo el día.'],
-
-  [/^\s*(hola|buenas|hey|que tal|saludos|buenos dias|buenas tardes)\b/, () =>
-    CAPACITACION.bienvenida() + '\n\n' +
-    '¿Quieres revisar la **definición del puesto**, la explicación de los **KPIs y técnica EPM**, cómo **planear la entrevista**, los **tips de feedback**, o explorar las métricas del equipo?'],
-
-  [/(bloque|prohib|roblox|instagram|restring|veta|censur|lista negra|politica de sitio)/, () => {
-    const porSitio = {};
-    intentosVivos().forEach(i => porSitio[sitioDe(i.dom)] = (porSitio[sitioDe(i.dom)]||0)+1);
-    const lineas = Object.entries(porSitio).map(([s,c]) =>
-      '— **'+s+'** · '+(BLOQUEADOS.find(b => b.sitio === s)||{}).dominio+' · '+c+
-      (c === 1 ? ' intento' : ' intentos')).join('\n');
-    const total = intentosVivos().length;
-    return (total ? '**Sitios bloqueados hoy**\n'+lineas+'\n' : 'Ahora mismo no hay ningún bloqueo activo.\n')+
-      'De los '+total+' intentos, **'+bloqueosDe('fernanda')+' son de Fernanda A** y '+bloqueosDe('diego')+
-      ' de Diego C a las 13:51. Todos después de la comida.\n'+
-      'Puedes apagar cualquiera con su interruptor o agregar otro dominio en *Sitios bloqueados*.\n'+
-      'Dos advertencias antes de presumir la función: el bloqueo lo aplica la **extensión o el agente instalado**, '+
-      'no este panel; y sólo cubre el equipo de la empresa, no el teléfono personal — que es justo a donde se '+
-      'mueve la mayoría de estos intentos en cuanto bloqueas el navegador.'; }],
-
-  [/(sin senal|inactiv|desconect|ausente|quien no|no esta|nadie|fuera de)/, () =>
-    'Dos personas fuera de rango ahora mismo:\n'+
-    '— **Fernanda A** · sin clics desde hace 23 min. Su última hora con actividad fue la de 16:00.\n'+
-    '— **Valeria N** · señal intermitente, índice '+P('valeria').s+'. Lleva 3 tramos bajo el umbral hoy.\n'+
-    '**Diego C** aparece sin clics, pero tiene junta agendada de 13:00 a 14:00 — no cuenta como alerta.\n'+
-    'Una precisión importante: *sin señal* significa que no hubo clics, no que la persona no esté trabajando. '+
-    'Una llamada, una junta presencial o leer en papel se ven idénticas a estar ausente.'],
-
-  [/(resumen|como va|estado general|status|del dia|de hoy|panorama)/, () =>
-    '**Resumen · hoy, corte '+hhmm()+'**\n'+
-    '— Índice del equipo **'+teamIdx+'/100**, 5 puntos arriba de ayer.\n'+
-    '— **'+miles(totClics)+' clics** y **'+totLinks+' enlaces** entre las seis personas.\n'+
-    '— **'+intentosVivos().length+' intentos** de abrir sitios bloqueados, '+bloqueosDe('fernanda')+
-    ' de la misma persona.\n'+
-    '— Pico de 10:00 a 12:00. La caída de 14:00 es la comida y es esperada.\n'+
-    'Lo que sí llama la atención: Fernanda A lleva tres días bajando después de las 15:00, y sus intentos '+
-    'bloqueados se concentran justo en esa franja.'],
-
-  [/(extension|agente|instalar|como se lee|como lee|se puede leer|se pueden leer|tecnicamente|es posible)/, () =>
-    'Aquí conviene ser preciso, porque es lo que más se malentiende de estas herramientas.\n'+
-    'Una página web **no puede** leer las otras pestañas del navegador ni bloquear nada por su cuenta. '+
-    'Por sí sola sólo detecta que **perdió el foco** — y eso sí es real en esta demo: cambia de pestaña y mira '+
-    'subir *Cambios de ventana* en el sensor de arriba. Tus clics y los enlaces que abres también son reales.\n'+
-    'Para leer dominios y aplicar bloqueos hacen falta cosas que se instalan y se ven:\n'+
-    '— una **extensión de navegador** con permiso `tabs` y `webRequest`, que cubre sólo ese navegador\n'+
-    '— un **agente en el sistema operativo**, que ve todas las aplicaciones\n'+
-    'Por eso ninguno de estos productos funciona con sólo abrir una página. La línea de tiempo, los destinos '+
-    'y los bloqueos de la demo son datos inventados.'],
-
-  [/(sitio|pagina|web|url|link|enlace|ventana|aplicacion|app|navega|visit|destino|distra|redes|youtube)/, () =>
-    '**Destinos del equipo hoy** · 10 h de jornada por persona\n'+
-    '— **Trabajo** '+MEZCLA.pct.trabajo+'% · Figma, VS Code, Jira, Metabase, Zendesk\n'+
-    '— **Comunicación** '+MEZCLA.pct.comunicacion+'% · Slack, Google Meet, Gmail\n'+
-    '— **Personal** '+MEZCLA.pct.personal+'% · YouTube y Mercado Libre\n'+
-    '— **Sin ventana activa** '+MEZCLA.pct.sin+'%\n'+
-    'Ese '+MEZCLA.pct.personal+'% son '+dur(MEZCLA.min.personal)+', y **completas de una sola persona**: '+
-    'Fernanda A. En las otras cinco el uso personal es cero, así que el promedio del equipo no dice nada útil.\n'+
-    'Instagram ya no aparece con tiempo porque está bloqueado: sus '+
-    intentosVivos().filter(i => i.dom === 'instagram.com').length+' intentos salen como marcas rojas en la '+
-    'línea de tiempo, no como minutos.'],
-
-  [/(alerta|umbral|aviso)/, () =>
-    '**2 alertas abiertas**, las dos por la misma regla (20 min sin clics en horario laboral):\n'+
-    '— `A-118` Fernanda A · 23 min · abierta '+hhmm()+'\n'+
-    '— `A-117` Valeria N · 21 min · se cerró sola al volver la señal\n'+
-    'Aparte van los '+intentosVivos().length+' intentos de sitio bloqueado, que no generan alerta sino registro.\n'+
-    'Puedes subir el umbral a 30 min en *Configuración → Umbrales*. Con 20 min este equipo genera unas '+
-    '9 alertas al día; con 30 bajan a 3.'],
-
-  [/(como funciona|sensor|como mide|que mide|formula|calcul)/, () =>
-    'El índice lo mandan **los clics y los enlaces abiertos** — el recorrido del cursor bajó a dato secundario, '+
-    'porque medía movimiento y no intención.\n'+
-    'Cada segundo se calcula:\n'+
-    '— **clics** de los últimos 10 s — 65% del índice\n'+
-    '— **enlaces abiertos** del último minuto — 35%\n'+
-    'El resultado se normaliza a 0–100 y se suaviza con la muestra anterior para que la aguja no brinque.\n'+
-    'Sin eventos por 6 s marca *actividad baja*; por 20 s, *sin señal*. Compruébalo: haz clic aquí o abre un '+
-    'enlace del menú de navegación y mira moverse el sensor de arriba.'],
-
-  [/(privacidad|legal|consentimiento|etic|espia|vigilan|permiso|ley|datos personales)/, () =>
-    'Lo que el sensor **sí** guarda: marca de tiempo, número de clics, dominio de los enlaces abiertos y '+
-    'cambios de ventana.\n'+
-    'Lo que **no** toca: el texto escrito, capturas de pantalla, la ruta completa de las URLs, archivos, '+
-    'cámara ni micrófono.\n'+
-    'Para operarlo en México hacen falta tres cosas: aviso de privacidad que declare la finalidad, '+
-    'consentimiento por escrito en contrato o política interna, y medición sólo dentro de la jornada. '+
-    'La lista de sitios bloqueados debe estar publicada: bloquear en silencio es lo que convierte una regla en trampa.\n'+
-    'Y una recomendación de producto: dale a cada persona su propio panel. Un tablero que sólo ve la jefatura '+
-    'se percibe como vigilancia; uno que la persona medida también ve se percibe como una métrica.'],
-
-  [/(reporte|export|pdf|csv|descarg|informe)/, () =>
-    'Puedo armar el reporte semanal en tres cortes: por persona, por franja horaria, o sólo excepciones '+
-    '—que suele ser el único que alguien lee.\n'+
-    'En esta demo la exportación está apagada: es una maqueta sin servidor. '+
-    'En la versión real saldría en CSV y PDF, con corte los viernes a las 19:00.'],
-
-  [/(junta|reunion|calendario|agenda)/, () =>
-    'Sí: cruzo el calendario antes de levantar una alerta. Si hay evento agendado, la ausencia de clics se marca '+
-    'como *En junta* y no cuenta contra el índice.\n'+
-    'Hoy aplicó una vez, con Diego C de 13:00 a 14:00. Sin ese cruce tendrías una tercera alerta falsa.'],
-
-  [/(ayer|semana|compar|tendencia|historic|evoluc)/, () =>
-    '**Últimos 5 días**, índice del equipo: 59 · 62 · 64 · 62 · '+teamIdx+'.\n'+
-    'La tendencia sube, pero está cargada por dos personas: Francisco R y Mariana Cordova aportan el 38% de los clics totales.\n'+
-    'Si los sacas del promedio, el equipo va plano en 57. Ese es el número que yo miraría.'],
-
-  [/(mejor hora|horario|productiv|cuando|pico|franja)/, () =>
-    'El pico del equipo es de **10:00 a 12:00**: cuatro de seis personas dan ahí su hora con más clics.\n'+
-    'La franja de 14:00 a 15:00 cae a menos de la mitad todos los días — es la comida, no un problema.\n'+
-    'Si vas a mover las juntas recurrentes, el hueco más barato es de 15:00 a 16:00.'],
-
-  [/\b(gracias|listo|perfecto|ok|vale|entendido)\b/, () =>
-    'Va. Dejo el sensor corriendo; si algo cruza el umbral o alguien toca un sitio bloqueado, aparece aquí solo.']
+  [/^\s*(hola|buenas|hey|que tal|saludos|buenos dias|buenas tardes)\b/, () => GUION_RUBRICA[1]]
 ];
 
+const FALLBACK = 
+  'Puedo responder sobre los **5 puntos de la rúbrica de retroalimentación** o sobre el **estado del equipo**.\n'+
+  'Escribe o selecciona: *1. Bienvenida*, *2. Puesto*, *3. KPIs*, *4. Planeación* o *5. Tips Feedback*.';
+
+function responder(q){
+  const n = norm(q);
+  for (const [re, fn] of GUION) if (re.test(n)) return fn();
+  return FALLBACK;
+}
 const FALLBACK =
   'Puedo responder sobre la **capacitación para líderes** o sobre la **telemetría del equipo**.\n'+
   'Prueba preguntando por: *mando medio*, *definición del puesto*, *KPIs*, *cómo planear entrevista*, *tips de feedback*, *resumen del día* o *privacidad*.';
