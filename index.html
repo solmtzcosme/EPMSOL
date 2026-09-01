@@ -653,14 +653,13 @@ const indice = p => Math.round(
   0.65 * Math.min(p.clics/TOPE_CLICS,1)*100 + 0.35 * Math.min(p.links/TOPE_LINKS,1)*100);
 
 const TEAM = [
-  {k:'mariana', n:'Mariana Cordova',   r:'Diseño de producto',  clics:1548, links:52, st:'foco',  last:'ahora',       seed:11},
-  {k:'diego',   n:'Francisco R',    r:'Desarrollo frontend', clics:1710, links:59, st:'foco',  last:'ahora',       seed:27},
-  {k:'renata',  n:'Diego C',    r:'QA y pruebas',        clics:1044, links:33, st:'baja',  last:'hace 6 min',  seed:43},
-  {k:'tomas',   n:'Valeria N', r:'Backend',             clics:1332, links:44, st:'junta', last:'hace 12 min', seed:58},
-  {k:'paulina', n:'Fernanda A',    r:'Soporte a clientes',  clics: 738, links:22, st:'nula',  last:'hace 23 min', seed:71},
-  {k:'iker',    n:'Ana Sol Mtz',   r:'Datos',               clics:1260, links:41, st:'foco',  last:'ahora',       seed:96}
+  {k:'mariana',  n:'Mariana Cordova', r:'Diseño de producto',   clics:1548, links:52, st:'foco',  last:'ahora',       seed:11},
+  {k:'francisco',n:'Francisco R',      r:'Desarrollo frontend', clics:1710, links:59, st:'foco',  last:'ahora',       seed:27},
+  {k:'diego',    n:'Diego C',          r:'QA y pruebas',        clics:1044, links:33, st:'baja',  last:'hace 6 min',  seed:43},
+  {k:'valeria',  n:'Valeria N',        r:'Backend',             clics:1332, links:44, st:'junta', last:'hace 12 min', seed:58},
+  {k:'fernanda', n:'Fernanda A',       r:'Soporte a clientes',  clics:738,  links:22, st:'nula',  last:'hace 23 min', seed:71},
+  {k:'ana',      n:'Ana Sol Mtz',      r:'Datos',               clics:1260, links:41, st:'foco',  last:'ahora',       seed:96}
 ];
-TEAM.forEach(p => p.s = indice(p));
 
 const HOURS = ['09','10','11','12','13','14','15','16','17','18'];
 /* forma de la jornada; los clics por hora se reparten con estos pesos */
