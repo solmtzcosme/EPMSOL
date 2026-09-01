@@ -400,7 +400,7 @@ h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance}
     <div class="lbl">Desempeño</div>
     <a href="#sensor" aria-current="page"><span class="tile">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 16 2.5-6.5L20 11z"/></svg>
-      </span>ROI en vivo</a>
+      </span>Indice de desempeño en vivo</a>
     <a href="#roster"><span class="tile">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 11a3 3 0 1 0 0-6M18 20a5.5 5.5 0 0 0-2-4.3"/></svg>
       </span>Equipo</a>
@@ -433,14 +433,14 @@ h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance}
       <div class="cover-tile" aria-hidden="true"></div>
       <div class="cover-copy">
         <h1>El desempeño,<br>en una sola señal financiera.</h1>
-        <p class="cover-sub">ROI, costo asignado e impacto económico del equipo en tiempo real — para decidir con datos de negocio, no de vigilancia.</p>
+        <p class="cover-sub">, costo asignado e impacto económico del equipo en tiempo real — para decidir con datos de negocio, no de vigilancia.</p>
       </div>
     </section>
 
-    <!-- SENSOR / ROI EN VIVO -->
+    <!-- SENSOR / Indice de desempeño EN VIVO -->
     <section class="card" id="sensor">
       <div class="card-hd">
-        <h2>ROI e impacto económico en vivo</h2>
+        <h2>Indice de desempeño e impacto económico en vivo</h2>
         <span class="lbl">corte 1 Hz · sesión local</span>
       </div>
       <div class="sensor-body">
@@ -452,7 +452,7 @@ h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance}
             </svg>
             <div class="mid">
               <span class="val" id="scoreVal">0</span>
-              <span class="of">ROI / 100</span>
+              <span class="of">Indice de desempeño / 100</span>
             </div>
           </div>
           <div style="text-align:center"><span class="state s-critico" id="statePill"><i class="dot"></i><span id="stateTxt">Sin datos</span></span></div>
@@ -469,7 +469,7 @@ h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance}
             <div class="read"><span class="lbl">Desviación de plan</span><span class="v" id="rOff">0<small>s</small></span></div>
           </div>
           <p style="margin:14px 0 0; font-size:12.5px; color:var(--ink-2); line-height:1.65">
-            El ROI en vivo lo mueve <strong>la actividad económicamente atribuible del equipo</strong>: interactúa con el
+            El Indice de desempeño en vivo lo mueve <strong>la actividad económicamente atribuible del equipo</strong>: interactúa con el
             panel o navega por el menú y verás moverse la aguja. La cifra combina impacto económico generado y
             costo asignado — <strong>nunca</strong> el contenido de lo que hace cada persona.
           </p>
@@ -480,7 +480,7 @@ h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance}
           <span class="lbl">Últimos 60 segundos</span>
           <span class="hint" id="sparkHint">promedio 0</span>
         </div>
-        <svg class="spark" id="spark" viewBox="0 0 600 78" preserveAspectRatio="none" role="img" aria-label="ROI de los últimos 60 segundos">
+        <svg class="spark" id="spark" viewBox="0 0 600 78" preserveAspectRatio="none" role="img" aria-label="Indice de desempeño de los últimos 60 segundos">
           <defs>
             <linearGradient id="sparkGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stop-color="#45DFC5" stop-opacity=".28"/>
@@ -500,7 +500,7 @@ h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance}
     <!-- KPIs -->
     <section class="kpis">
       <div class="kpi">
-        <div class="top"><span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 16 2.5-6.5L20 11z"/></svg></span><span class="lbl">ROI del equipo</span></div>
+        <div class="top"><span class="tile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l7 16 2.5-6.5L20 11z"/></svg></span><span class="lbl">Indice de desempeño del equipo</span></div>
         <div class="v"><span id="kpiIdx">0</span><small> /100</small></div>
         <div class="delta up">▲ 5 pts vs. ayer</div>
       </div>
@@ -598,7 +598,7 @@ h1,h2,h3{margin:0; font-weight:600; letter-spacing:-.015em; text-wrap:balance}
     <section class="method" id="metodo">
       <div>
         <h3>Qué se mide</h3>
-        <p>Impacto económico y costo asignado a nivel de proceso de negocio. El ROI es <code>0.65·impacto + 0.35·eficiencia</code>,
+        <p>Impacto económico y costo asignado a nivel de proceso de negocio. El Indice de desempeño es <code>0.65·impacto + 0.35·eficiencia</code>,
         normalizado a 100 y recalculado cada segundo a partir de indicadores agregados por equipo.</p>
       </div>
       <div>
@@ -661,7 +661,7 @@ const STATES = {
   otro:        {label:'En otro proceso',         cls:'s-otro'}
 };
 const TOPE_IMPACTO = 1800, TOPE_COSTO = 70;
-const roiIndex = p => Math.round(
+const Indice de desempeñoIndex = p => Math.round(
   0.65 * Math.min(p.impacto/TOPE_IMPACTO,1)*100 + 0.35 * Math.min(p.costo/TOPE_COSTO,1)*100);
 
 const TEAM = [
@@ -672,7 +672,7 @@ const TEAM = [
   {k:'fer',       n:'Fer',        r:'Éxito de cliente',     impacto: 738, costo:22, st:'critico',     last:'hace 23 min', seed:71},
   {k:'anasol',    n:'Ana Sol',    r:'Datos y analítica',    impacto:1260, costo:41, st:'optimo',      last:'ahora',       seed:96}
 ];
-TEAM.forEach(p => { p.s = roiIndex(p); p.eficiencia = clamp(Math.round(p.impacto/(p.costo*30)*100),40,99); });
+TEAM.forEach(p => { p.s = Indice de desempeñoIndex(p); p.eficiencia = clamp(Math.round(p.impacto/(p.costo*30)*100),40,99); });
 
 const HOURS = ['09','10','11','12','13','14','15','16','17','18'];
 const SHAPE = {
@@ -977,7 +977,7 @@ const clock = $('#clock');
 const tick = () => { clock.textContent = new Date().toLocaleTimeString('es-MX',{hour12:false}); };
 setInterval(tick, 1000); tick();
 
-/* ═══ ROI EN VIVO ══════════════════════════════════════════════════ */
+/* ═══ Indice de desempeño EN VIVO ══════════════════════════════════════════════════ */
 const S = {on:0, off:0, last:performance.now(), score:0, valor:0, ahorro:0};
 addEventListener('pointerdown', () => { S.last = performance.now(); S.valor += 3; }, {passive:true});
 addEventListener('keydown',     () => { S.last = performance.now(); S.valor += 1; }, {passive:true});
@@ -1045,7 +1045,7 @@ svgSpark.addEventListener('mousemove', e => {
   const i = clamp(Math.round(((e.clientX-r.left)/r.width)*59), 0, 59);
   sCross.style.opacity = '1';
   sCross.setAttribute('x1', xAt(i)); sCross.setAttribute('x2', xAt(i));
-  $('#sparkHint').textContent = 'hace ' + (59-i) + ' s · ROI ' + buf[i];
+  $('#sparkHint').textContent = 'hace ' + (59-i) + ' s · Indice de desempeño ' + buf[i];
 });
 svgSpark.addEventListener('mouseleave', () => { sCross.style.opacity = '0'; });
 drawSpark();
@@ -1055,7 +1055,7 @@ const norm = s => s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,''
 const P = k => TEAM.find(x => x.k === k);
 const ficha = k => { const p = P(k);
   return '**'+p.n+'** · '+p.r+'\n'+
-    'ROI **'+p.s+'/100** · costo asignado '+money(p.costo)+' · impacto económico '+money(p.impacto)+'.\n'; };
+    'Indice de desempeño **'+p.s+'/100** · costo asignado '+money(p.costo)+' · impacto económico '+money(p.impacto)+'.\n'; };
 const bloqueosDe = k => INTENTOS.filter(i => i.k === k).length;
 const MEZCLA = (() => {
   const t = {core:0, coord:0, overhead:0, sin:0};
@@ -1068,15 +1068,15 @@ const MEZCLA = (() => {
 const CAPACITACION = {
   bienvenida: () =>
     '¡Bienvenido al Centro de Capacitación para Líderes: Desempeño Financiero y Retroalimentación Constructiva!\n\n'+
-    '**Tu rol:** Transformar indicadores de ROI y costo en conversaciones de alto impacto, sin confundir métrica con valor personal.\n\n'+
+    '**Tu rol:** Transformar indicadores de Indice de desempeño y costo en conversaciones de alto impacto, sin confundir métrica con valor personal.\n\n'+
     '**Estado actual · Célula Norte**\n'+
-    '— ROI global **'+teamIdx+'/100** (▲5 pts vs. ayer)\n'+
+    '— Indice de desempeño global **'+teamIdx+'/100** (▲5 pts vs. ayer)\n'+
     '— **'+money(totCosto)+' de costo asignado** y **'+money(totImpacto)+' de impacto económico**\n'+
     '— **'+intentosVivos().length+' desviaciones** de presupuesto detectadas\n\n'+
     '**¿Qué aprenderás aquí?**\n'+
     'Explora estos 5 temas escribiendo sus nombres o preguntas:\n'+
     '— *Definición del puesto* — Perfil y responsabilidades de negocio de quién evaluarás\n'+
-    '— *KPIs financieros* — Cómo se calculan ROI, costo e impacto económico\n'+
+    '— *KPIs financieros* — Cómo se calculan Indice de desempeño, costo e impacto económico\n'+
     '— *Cómo planear la entrevista* — Estructura, preparación y documentación\n'+
     '— *Tips de retroalimentación* — Modelo SBI, manejo de conflictos, acuerdos\n'+
     '— *Datos del equipo* — Analiza el panel en tiempo real y aprende a interpretarlo\n\n'+
@@ -1098,7 +1098,7 @@ const CAPACITACION = {
     '— **20%** en coordinación (sincronización, sesiones estratégicas)\n'+
     '— **15%** en overhead administrativo\n\n'+
     '**Indicadores de desempeño esperados**\n'+
-    '— ROI **≥75/100** (con variación de ±10 por picos de carga)\n'+
+    '— Indice de desempeño **≥75/100** (con variación de ±10 por picos de carga)\n'+
     '— Eficiencia de procesos **≥70%** en jornada estándar\n'+
     '— Cero desviaciones de presupuesto, o justificación documentada en caso contrario',
 
@@ -1107,7 +1107,7 @@ const CAPACITACION = {
     '**¿Qué es este EPM?**\n'+
     'Enterprise Performance Management orientado a negocio: agrega impacto económico y costo asignado '+
     'por proceso, sin capturar contenido de trabajo ni comunicaciones. **Sólo agrega indicadores financieros.**\n\n'+
-    '**1. ROI (0–100)**\n'+
+    '**1. Indice de desempeño (0–100)**\n'+
     '— Fórmula: `0.65 × (impacto económico / tope) + 0.35 × (eficiencia / tope)`, normalizado a escala 100\n'+
     '— *Qué mide:* contribución económica sostenida a procesos de negocio\n'+
     '— *Rango esperado:* 65–85/100 en jornadas normales. >90 sostenido puede indicar sobrecarga; <50 indica bloqueo\n'+
@@ -1126,16 +1126,16 @@ const CAPACITACION = {
     '— Tendencia: si se repiten en la misma franja, indica necesidad de revisar la carga de trabajo\n'+
     '— Acción: no es para sancionar; es para **entender patrones** de costo no planificado\n\n'+
     '**Cómo leer el tablero**\n'+
-    '— El **ROI en vivo** muestra volatilidad del indicador en tiempo real\n'+
+    '— El **Indice de desempeño en vivo** muestra volatilidad del indicador en tiempo real\n'+
     '— El **throughput** revela patrones de valor generado por franja horaria\n'+
     '— La **asignación de recursos** de cada persona explica su carga real de trabajo',
 
   planeacion: () =>
     '**Plan de Acción: Cómo Estructurar una Entrevista de Retroalimentación**\n\n'+
     '**Fase 1: Análisis Previo (3–5 días antes)**\n'+
-    '1. Revisa el ROI y costo asignado de los últimos 7–14 días (no uses días aislados)\n'+
+    '1. Revisa el Indice de desempeño y costo asignado de los últimos 7–14 días (no uses días aislados)\n'+
     '2. Identifica máximo 2 fortalezas y 2 áreas de mejora — no más de 4 temas\n'+
-    '3. Busca anomalías: caída sostenida de ROI, picos de desviación de presupuesto, overhead excesivo\n'+
+    '3. Busca anomalías: caída sostenida de Indice de desempeño, picos de desviación de presupuesto, overhead excesivo\n'+
     '4. Prepara ejemplos concretos usando el tablero (fechas, cifras, procesos)\n\n'+
     '**Fase 2: Convocatoria Formal (48 horas antes)**\n'+
     '— Asunto: "Sesión de Desarrollo y Desempeño — [Nombre]"\n'+
@@ -1145,22 +1145,22 @@ const CAPACITACION = {
     '0–3 min: apertura cordial\n'+
     '3–8 min: su perspectiva primero ("¿Cómo sientes que ha ido tu contribución?")\n'+
     '8–20 min: comparte el tablero EN PANTALLA, señala patrones sin juicios\n'+
-    '20–27 min: acuerdos co-creados ("¿Qué apoyo necesitas para sostener un ROI >75?")\n'+
+    '20–27 min: acuerdos co-creados ("¿Qué apoyo necesitas para sostener un Indice de desempeño >75?")\n'+
     '27–30 min: cierre, seguimiento en 7 días, documentación por correo\n\n'+
     '**Errores comunes a evitar**\n'+
     '❌ Sorprender con cifras que no mencionaste antes\n'+
-    '❌ Comparar personas ("Tu compañero tiene ROI 85")\n'+
+    '❌ Comparar personas ("Tu compañero tiene Indice de desempeño 85")\n'+
     '❌ Confundir métrica financiera con valor personal\n'+
     '✓ Siempre: contexto + empatía + solución conjunta',
 
   tips: () =>
     '**Tips Prácticos: Retroalimentación Exitosa y Manejo de Conflictos**\n\n'+
     '**Técnica SBI (Situación - Comportamiento - Impacto)**\n'+
-    'En lugar de: "Tu ROI bajó, no estás produciendo"\n'+
-    'Di: "En los últimos 5 días (S) el ROI cayó de forma sostenida después de las 15:00 (C). Eso retrasó '+
+    'En lugar de: "Tu Indice de desempeño bajó, no estás produciendo"\n'+
+    'Di: "En los últimos 5 días (S) el Indice de desempeño cayó de forma sostenida después de las 15:00 (C). Eso retrasó '+
     'la entrega que esperábamos el jueves (I). ¿Qué está pasando?"\n\n'+
     '**Principios de Comunicación**\n'+
-    '1. Separa métrica financiera de persona — el ROI es un instrumento, no un juicio\n'+
+    '1. Separa métrica financiera de persona — el Indice de desempeño es un instrumento, no un juicio\n'+
     '2. Preguntas abiertas: "¿Qué cambió en tu carga después de las 15:00?"\n'+
     '3. Valida emociones, no excusas\n'+
     '4. Proporcionalidad: caída leve → mención informal; caída sostenida → entrevista formal\n\n'+
@@ -1170,7 +1170,7 @@ const CAPACITACION = {
     'Si cuestiona la metodología: "Correcto en cuestionarlo. No capturamos contenido de tu trabajo, sólo '+
     'agregados de costo e impacto. El tablero es compartido: tú ves lo que yo veo."\n\n'+
     '**Acuerdos Co-creados**\n'+
-    '— "¿Qué necesitarías para llegar a ROI 80 la próxima semana?"\n'+
+    '— "¿Qué necesitarías para llegar a Indice de desempeño 80 la próxima semana?"\n'+
     '— "¿Ajustamos la carga de overhead?"\n'+
     '— "¿Hay costo no visible en el sprint que debamos reflejar?"\n\n'+
     '**Seguimiento en 7 días** — no esperes 30. Celebra mejoras; si no mejoró, vuelve a diagnosticar, no castigues.\n\n'+
@@ -1180,16 +1180,16 @@ const CAPACITACION = {
 const GUION = [
   [/(bienvenida|mando medio|capacitacion|capacitador|lider|gerente|entrenamiento|training|inicio|intro|hola|buenas|saludos)/, CAPACITACION.bienvenida],
   [/(puesto|rol|desarrollador|senior software engineer|evaluar puesto|perfil|responsabilidades|descripcion del rol|qué debe hacer)/, CAPACITACION.puesto],
-  [/(kpi|kpis|financier|roi|impacto economico|costo asignado|tablero|medicion|cómo se mide|indicador)/, CAPACITACION.kpis],
+  [/(kpi|kpis|financier|Indice de desempeño|impacto economico|costo asignado|tablero|medicion|cómo se mide|indicador)/, CAPACITACION.kpis],
   [/(planear|planeacion|preparar entrevista|reunion|preparacion|estructura|cómo hago|antes de la reunion|qué le digo)/, CAPACITACION.planeacion],
   [/(tip|tips|feedback|retroalimentacion|conflicto|sbi|exito|exitosa|cómo digo|manejo|comunicacion|respuesta|reaccion)/, CAPACITACION.tips],
 
   [/\bmariana\b/, () => ficha('mariana')+
-    'Patrón estable: ROI sostenido de 09:00 a 12:00 y en la tarde. Sin desviaciones en 14 días.\n'+
+    'Patrón estable: Indice de desempeño sostenido de 09:00 a 12:00 y en la tarde. Sin desviaciones en 14 días.\n'+
     'Asignación: Diseño de producto 7 h 45 m, Documentación 28 min. Cero overhead personal.'],
 
   [/\bfrancisco\b/, () => ficha('francisco')+
-    'El mayor impacto económico del equipo. Pero lleva cuatro días de ROI arriba de 90 sin pausas mayores '+
+    'El mayor impacto económico del equipo. Pero lleva cuatro días de Indice de desempeño arriba de 90 sin pausas mayores '+
     'a 10 minutos — eso también es una señal, y no una buena.\n'+
     'Asignación: Desarrollo 7 h 33 m, Revisión de código 55 min.'],
 
@@ -1203,7 +1203,7 @@ const GUION = [
     'Asignación: Desarrollo 6 h 45 m y 1 h de coordinación. La sesión entra como coordinación, no como hueco.'],
 
   [/\bfer\b/, () => ficha('fer')+
-    'El ROI más bajo del equipo, con caída sostenida después de las 15:00 por tercer día.\n'+
+    'El Indice de desempeño más bajo del equipo, con caída sostenida después de las 15:00 por tercer día.\n'+
     'Asignación: Soporte 3 h 45 m contra 2 h en overhead, y **'+bloqueosDe('fer')+
     ' desviaciones** de presupuesto, todas entre las 15:15 y las 18:00.\n'+
     'Es el único caso que yo llevaría a una conversación, no al panel. El indicador te dice **cuándo preguntar**, '+
@@ -1227,16 +1227,16 @@ const GUION = [
       'transacciones individuales — el objetivo es identificar patrones de costo, no fiscalizar a la persona.'; }],
 
   [/(sin datos|inactiv|desconect|ausente|quien no|no esta|nadie|fuera de)/, () =>
-    'Dos personas fuera de rango de ROI ahora mismo:\n'+
+    'Dos personas fuera de rango de Indice de desempeño ahora mismo:\n'+
     '— **Fer** · sin actividad registrada desde hace 23 min. Su última hora con impacto fue la de 16:00.\n'+
-    '— **Vale** · señal intermitente, ROI '+P('vale').s+'. Lleva 3 tramos bajo el umbral hoy.\n'+
+    '— **Vale** · señal intermitente, Indice de desempeño '+P('vale').s+'. Lleva 3 tramos bajo el umbral hoy.\n'+
     '**Diego** aparece sin valor generado, pero tiene sesión estratégica agendada de 13:00 a 14:00 — no cuenta como alerta.\n'+
     'Una precisión importante: *sin datos* significa que no hubo actividad económicamente atribuible, no que '+
     'la persona no esté trabajando. Una llamada o una sesión presencial se ven idénticas a estar ausente.'],
 
   [/(resumen|como va|estado general|status|del dia|de hoy|panorama)/, () =>
     '**Resumen · hoy, corte '+hhmm()+'**\n'+
-    '— ROI del equipo **'+teamIdx+'/100**, 5 puntos arriba de ayer.\n'+
+    '— Indice de desempeño del equipo **'+teamIdx+'/100**, 5 puntos arriba de ayer.\n'+
     '— **'+money(totCosto)+' de costo asignado** y **'+money(totImpacto)+' de impacto económico**.\n'+
     '— **'+intentosVivos().length+' desviaciones** de presupuesto, '+bloqueosDe('fer')+
     ' de la misma persona.\n'+
@@ -1245,10 +1245,10 @@ const GUION = [
     'presupuesto se concentran justo en esa franja.'],
 
   [/(metodologia|como funciona|calcul|formula|estimacion)/, () =>
-    'El ROI en vivo lo mueve el **impacto económico agregado y la eficiencia de procesos** del equipo — nunca '+
+    'El Indice de desempeño en vivo lo mueve el **impacto económico agregado y la eficiencia de procesos** del equipo — nunca '+
     'el detalle de tareas individuales.\n'+
     'Cada segundo se calcula:\n'+
-    '— **impacto económico** normalizado — 65% del ROI\n'+
+    '— **impacto económico** normalizado — 65% del Indice de desempeño\n'+
     '— **eficiencia de procesos** — 35%\n'+
     'El resultado se suaviza con la muestra anterior para que la aguja no brinque. Interactúa con el panel '+
     'para ver el sensor moverse.'],
@@ -1269,11 +1269,11 @@ const GUION = [
 
   [/(sesion estrategica|reunion|calendario|agenda)/, () =>
     'Sí: cruzo el calendario antes de levantar una alerta. Si hay evento agendado, la ausencia de valor '+
-    'registrado se marca como *En sesión estratégica* y no cuenta contra el ROI.\n'+
+    'registrado se marca como *En sesión estratégica* y no cuenta contra el Indice de desempeño.\n'+
     'Hoy aplicó una vez, con Diego de 13:00 a 14:00.'],
 
   [/(ayer|semana|compar|tendencia|historic|evoluc)/, () =>
-    '**Últimos 5 días**, ROI del equipo: 59 · 62 · 64 · 62 · '+teamIdx+'.\n'+
+    '**Últimos 5 días**, Indice de desempeño del equipo: 59 · 62 · 64 · 62 · '+teamIdx+'.\n'+
     'La tendencia sube, pero está cargada por dos personas: Francisco y Mariana aportan el 38% del impacto '+
     'económico total.\n'+
     'Si los sacas del promedio, el equipo va plano en 57. Ese es el número que yo miraría.'],
@@ -1360,7 +1360,7 @@ function preguntar(q){
 }
 
 const SUGS = [
-  '¿Qué es la capacitación?',
+  'Entrar a capacitación',
   'Definición del puesto',
   'KPIs financieros',
   'Cómo planear la entrevista',
@@ -1388,12 +1388,12 @@ setTimeout(() => botSay(
   '¡Bienvenido al **Centro de Capacitación para Líderes**!\n\n'+
   'Soy tu asistente para transformar indicadores financieros de EPM en conversaciones constructivas con tu equipo.\n\n'+
   '**Estado actual · Célula Norte**\n'+
-  '— ROI global **'+teamIdx+'/100** · costo asignado '+money(totCosto)+' · impacto económico '+money(totImpacto)+'\n'+
+  '— Indice de desempeño **'+teamIdx+'/100** · costo asignado '+money(totCosto)+' · impacto económico '+money(totImpacto)+'\n'+
   '— **'+intentosVivos().length+' desviaciones** de presupuesto hoy\n\n'+
   '**¿Por dónde empezamos?** Prueba preguntar:\n'+
   '— *¿Qué es la capacitación?* (introducción)\n'+
   '— *Definición del puesto* (perfil y responsabilidades)\n'+
-  '— *KPIs financieros* (cómo se calculan ROI, costo e impacto)\n'+
+  '— *KPIs financieros* (cómo se calculan Indice de desempeño, costo e impacto)\n'+
   '— *Cómo planear la entrevista* (paso a paso)\n'+
   '— *Tips de retroalimentación* (comunicación y conflictos)\n'+
   '— O pregunta por alguien del equipo: Mariana, Francisco, Fer...'
